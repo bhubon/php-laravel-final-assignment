@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('canidate_education', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('candidate_id')->constrained('candidates')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('degree_type');
+            $table->string('institute_name');
+            $table->string('department');
+            $table->string('passing_year');
+            $table->string('cgpa');
             $table->timestamps();
         });
     }

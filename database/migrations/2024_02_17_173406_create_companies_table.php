@@ -22,10 +22,9 @@ return new class extends Migration
             $table->string('industry');
             $table->string('company_size');
             $table->string('logo');
-            $table->string('cover_photo');
-            $table->string('facebook_links');
-            $table->string('facebook_links');
-            $table->string('');
+            $table->string('cover_photo')->nullable();
+            $table->string('facebook_links')->nullable();
+            $table->string('linkedin_link')->nullable();
             $table->timestamps();
         });
     }

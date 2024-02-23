@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('plugins', function (Blueprint $table) {
             $table->id();
+            $table->string('type');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('company_id')->constrained('companies')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }
