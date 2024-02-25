@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('vacancy');
             $table->string('job_nature');
             $table->dateTime('deadline');
+            $table->enum('status',['active','inactive'])->default('active');
             $table->foreignId('company_id')->constrained('companies')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('category_id')->constrained('job_categories')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();

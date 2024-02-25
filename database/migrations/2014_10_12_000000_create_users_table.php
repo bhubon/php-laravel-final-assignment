@@ -18,10 +18,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('phone');
-            $table->string('role');
-            $table->string('status');
-            $table->string('otp');
+            $table->string('phone')->nullable();
+            $table->enum('role',['admin','company','candidate'])->default('candidate');
+            $table->enum('status',['active','inactive'])->default('active');
+            $table->string('otp')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
