@@ -28,17 +28,11 @@
         </li>
         <li class="menu-label">Job Management</li>
         <li>
-            <a href="javascript:;" class="has-arrow">
+            <a href="{{ route('admin.jobs.index') }}">
                 <div class="parent-icon"><i class="bx bx-category"></i>
                 </div>
                 <div class="menu-title">Jobs</div>
             </a>
-            <ul>
-                <li> <a href="app-emailbox.html"><i class="bx bx-right-arrow-alt"></i>Add Job</a>
-                </li>
-                <li> <a href="app-chat-box.html"><i class="bx bx-right-arrow-alt"></i>All Jobs</a>
-                </li>
-            </ul>
         </li>
         <li>
             <a href="javascript:;" class="has-arrow">
@@ -47,9 +41,9 @@
                 <div class="menu-title">Jobs Category</div>
             </a>
             <ul>
-                <li> <a href="app-emailbox.html"><i class="bx bx-right-arrow-alt"></i>Add Category</a>
+                <li> <a href="{{ route('job-category.create') }}"><i class="bx bx-right-arrow-alt"></i>Add Category</a>
                 </li>
-                <li> <a href="app-chat-box.html"><i class="bx bx-right-arrow-alt"></i>All Categories</a>
+                <li> <a href="{{ route('job-category.index') }}"><i class="bx bx-right-arrow-alt"></i>All Categories</a>
                 </li>
             </ul>
         </li>
@@ -75,9 +69,9 @@
                 <div class="menu-title">Blog Categories</div>
             </a>
             <ul>
-                <li> <a href="app-emailbox.html"><i class="bx bx-right-arrow-alt"></i>Add Category</a>
+                <li> <a href="{{ route('blog-category.create') }}"><i class="bx bx-right-arrow-alt"></i>Add Category</a>
                 </li>
-                <li> <a href="app-chat-box.html"><i class="bx bx-right-arrow-alt"></i>All Categories</a>
+                <li> <a href="{{ route('blog-category.index') }}"><i class="bx bx-right-arrow-alt"></i>All Categories</a>
                 </li>
             </ul>
         </li>

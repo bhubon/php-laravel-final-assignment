@@ -22,5 +22,11 @@ class Job extends Model
         'company_id',
         'category_id',
         'user_id',
+        'status',
     ];
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 }

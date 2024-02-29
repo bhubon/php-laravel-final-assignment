@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminJobController;
+use App\Http\Controllers\Admin\BlogCategoryController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\JobCategoryController;
 use App\Http\Controllers\Company\CompanyBlogController;
 use App\Http\Controllers\Company\CompanyDashboardController;
 use App\Http\Controllers\Company\JobController;
@@ -41,6 +44,15 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(fu
 
     //company
     Route::resource('/companies', CompanyController::class);
+    //job category
+    Route::resource('/job-category', JobCategoryController::class);
+    //Jobs
+    Route::get('/jobs', [AdminJobController::class, 'index'])->name('admin.jobs.index');
+    Route::get('/jobs/edit/{id}', [AdminJobController::class, 'edit'])->name('admin.jobs.edit');
+    Route::put('/jobs/edit/{id}', [AdminJobController::class, 'update'])->name('admin.jobs.update');
+
+    //blog category
+    Route::resource('/blog-category', BlogCategoryController::class);
 });
 
 
@@ -48,7 +60,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(fu
 //Company
 Route::get('/company/login', [CompanyDashboardController::class, 'login'])->name(('company.login'));
 
-Route::middleware(['auth', 'verified', 'role:company'])->prefix('company')->group(function () {    
+Route::middleware(['auth', 'verified', 'role:company'])->prefix('company')->group(function () {
     Route::get('/dashboard', [CompanyDashboardController::class, 'dashboard'])->name('company.dashboard');
     Route::get('logout', [CompanyDashboardController::class, 'companyLogout'])->name(('company.logout'));
 
