@@ -1,58 +1,24 @@
 @extends('company.company-layout')
 @section('content')
-    <div class="row">
-        <div class="col-4">
-            <div class="card radius-10 bg-gradient-deepblue">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <h5 class="mb-0 text-white">{{ $total_jobs }}</h5>
-                        <div class="ms-auto">
-                            <i class="bx bx-category text-white"></i>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center text-white">
-                        <p class="mb-0">Job Posts</p>
-                    </div>
-                </div>
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">Dashboard</div>
+            <div class="ps-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 p-0">
+                        <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">All Jobs</li>
+                    </ol>
+                </nav>
             </div>
         </div>
-        <div class="col-4">
-            <div class="card radius-10 bg-gradient-orange">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <h5 class="mb-0 text-white">{{ $total_employe }}</h5>
-                        <div class="ms-auto">
-                            <i class="bx bx-category text-white"></i>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center text-white">
-                        <p class="mb-0">Employee</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-4">
-            <div class="card radius-10 bg-gradient-ohhappiness">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <h5 class="mb-0 text-white">{{ $job_running }}</h5>
-                        <div class="ms-auto">
-                            <i class="bx bx-category text-white"></i>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center text-white">
-                        <p class="mb-0">Job Post Running</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div><!--end row-->
-
+    </div>
     <div class="card radius-10">
         <div class="card-body">
             <div class="d-flex align-items-center">
                 <div>
-                    <h5 class="mb-0">Latest Jobs</h5>
+                    <h5 class="mb-0">All Jobs</h5>
                 </div>
                 <div class="font-22 ms-auto"><i class="bx bx-dots-horizontal-rounded"></i>
                 </div>

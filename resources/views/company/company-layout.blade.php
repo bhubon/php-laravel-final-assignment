@@ -1,4 +1,4 @@
-@include('admin.common.header')
+@include('company.common.header')
 <!--start page wrapper -->
 <div class="page-wrapper">
     <div class="page-content">
@@ -8,4 +8,4 @@
     </div>
 </div>
 <!--end page wrapper -->
-@include('admin.common.footer')
+@include('company.common.footer')

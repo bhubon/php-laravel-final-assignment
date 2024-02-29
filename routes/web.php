@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Company\CompanyBlogController;
+use App\Http\Controllers\Company\CompanyDashboardController;
+use App\Http\Controllers\Company\JobController;
+use App\Http\Controllers\Company\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,10 +46,20 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(fu
 
 
 //Company
-Route::middleware(['auth', 'verified', 'role:company'])->prefix('company')->group(function () {
-    Route::get('/dashboard', function () {
-        echo 'Company';
-    });
+Route::get('/company/login', [CompanyDashboardController::class, 'login'])->name(('company.login'));
+
+Route::middleware(['auth', 'verified', 'role:company'])->prefix('company')->group(function () {    
+    Route::get('/dashboard', [CompanyDashboardController::class, 'dashboard'])->name('company.dashboard');
+    Route::get('logout', [CompanyDashboardController::class, 'companyLogout'])->name(('company.logout'));
+
+    //profile
+    Route::get('/profile', [ProfileController::class, 'profile'])->name('company.profile');
+    Route::post('/profile', [ProfileController::class, 'profileUpdate'])->name('company.profileUpdate');
+
+    //Job
+    Route::resource('jobs', JobController::class);
+    //Blog
+    Route::resource('blogs', CompanyBlogController::class);
 });
 
 //Candidate
