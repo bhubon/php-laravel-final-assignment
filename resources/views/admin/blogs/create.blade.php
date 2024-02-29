@@ -1,4 +1,4 @@
-@extends('company.company-layout')
+@extends('admin.admin-layout')
 @section('content')
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
         <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
@@ -27,7 +27,7 @@
                     </div>
                     <hr>
                     @include('components.validatation')
-                    <form class="row g-3" method="POST" action="{{ route('blogs.store') }}" enctype="multipart/form-data">
+                    <form class="row g-3" method="POST" action="{{ route('admin-blogs.store') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="col-md-12">
                             <label for="title" class="form-label">Title*</label>
@@ -49,9 +49,9 @@
                         </div>
 
                         <div class="col-md-12">
-                            <label for="category_id" class="form-label">Blog Category*</label>
+                            <label for="category_id" class="form-label">Job Category*</label>
                             <select name="category_id" id="category_id" class="form-control">
-                                <option value="">Select Blog Category</option>
+                                <option value="">Select Job Category</option>
                                 @foreach ($categories as $category)
                                     <option @if (old('category_id') == $category->id) selected @endif
                                         value="{{ $category->id }}">{{ $category->name }}</option>

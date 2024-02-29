@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminBlogController;
 use App\Http\Controllers\Admin\AdminJobController;
 use App\Http\Controllers\Admin\BlogCategoryController;
 use App\Http\Controllers\Admin\CompanyController;
@@ -53,6 +54,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(fu
 
     //blog category
     Route::resource('/blog-category', BlogCategoryController::class);
+    //blog category
+    Route::resource('/admin-blogs', AdminBlogController::class);
 });
 
 
