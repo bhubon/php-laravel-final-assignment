@@ -10,6 +10,7 @@ use App\Http\Controllers\Company\CompanyBlogController;
 use App\Http\Controllers\Company\CompanyDashboardController;
 use App\Http\Controllers\Company\JobController;
 use App\Http\Controllers\Company\ProfileController;
+use App\Http\Controllers\Frontend\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,9 +24,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//frontend
+Route::get('/', [HomeController::class, 'homePage'])->name('frontend.home');
+Route::get('/flogin', [HomeController::class, 'frontendLogin'])->name('frontend.login');
+Route::get('/fregistration', [HomeController::class, 'frontendRegister'])->name('frontend.registration');
+Route::post('/registration', [HomeController::class, 'frontendRegisterSubmit'])->name('frontend.registrationSubmit');
+Route::post('/verification', [HomeController::class, 'verification'])->name('frontend.verification');
+
+
 
 //Admin Logins
 Route::get('/admin/login', function () {
