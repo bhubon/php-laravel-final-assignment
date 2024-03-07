@@ -94,8 +94,8 @@
                                                         class="bx bx-file"></i>
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <h6 class="msg-name">24 PDF File<span
-                                                            class="msg-time float-end">19 min
+                                                    <h6 class="msg-name">24 PDF File<span class="msg-time float-end">19
+                                                            min
                                                             ago</span></h6>
                                                     <p class="msg-info">The pdf files generated</p>
                                                 </div>
@@ -363,7 +363,20 @@
                     <div class="user-box dropdown">
                         <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret"
                             href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="assets/images/avatars/avatar-2.png" class="user-img" alt="user avatar">
+                            @php
+                                $user_id = auth()->user()->id;
+                                $candidate = \App\Models\Candidate::where('user_id', $user_id)
+                                    ->pluck('avatar')
+                                    ->first();
+
+                                if($candidate){
+                                    $avatar = $candidate;
+                                }else{
+                                    $avatar = asset('company/assets/images/avatars/avatar-2.png');
+                                }
+
+                            @endphp
+                            <img src="{{ $avatar }}" class="user-img" alt="user avatar">
                             <div class="user-info ps-3">
                                 <p class="user-name mb-0">{{ auth()->user()->first_name }}</p>
                             </div>
@@ -372,7 +385,7 @@
                             <li><a class="dropdown-item" href="{{ route('company.profile') }}"><i
                                         class="bx bx-user"></i><span>Profile</span></a>
                             </li>
-                            
+
                             <li><a class="dropdown-item" href="{{ route('company.logout') }}"><i
                                         class='bx bx-log-out-circle'></i><span>Logout</span></a>
                             </li>

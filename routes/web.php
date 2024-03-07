@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\BlogCategoryController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\JobCategoryController;
+use App\Http\Controllers\Company\CompanyApplicationController;
 use App\Http\Controllers\Company\CompanyBlogController;
 use App\Http\Controllers\Company\CompanyDashboardController;
 use App\Http\Controllers\Company\JobController;
@@ -81,13 +82,15 @@ Route::middleware(['auth', 'verified', 'role:company'])->prefix('company')->grou
     Route::resource('jobs', JobController::class);
     //Blog
     Route::resource('blogs', CompanyBlogController::class);
+    //Blog
+    Route::resource('applications', CompanyApplicationController::class);
 });
 
 //Candidate
 Route::middleware(['auth', 'verified', 'role:candidate'])->group(function () {
     Route::get('/user/dashboard', function () {
         echo 'Candidate';
-    });
+    })->name('user.dashboard');
 });
 
 require __DIR__ . '/auth.php';

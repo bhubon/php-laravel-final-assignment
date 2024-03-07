@@ -4,12 +4,13 @@
     <div class="slider-area ">
         <!-- Mobile Menu -->
         <div class="slider-active">
-            <div class="single-slider slider-height d-flex align-items-center" data-background="{{ asset('frontend/') }}/assets/img/hero/h1_hero.jpg">
+            <div class="single-slider slider-height d-flex align-items-center"
+                data-background="{{ asset('frontend/') }}/assets/img/hero/h1_hero.jpg">
                 <div class="container">
                     <div class="row">
                         <div class="col-xl-6 col-lg-9 col-md-10">
                             <div class="hero__caption">
-                                <h1>Find the most exciting startup jobs</h1>
+                                <h1>Find the most exciting jobs</h1>
                             </div>
                         </div>
                     </div>
@@ -19,20 +20,20 @@
                             <!-- form -->
                             <form action="#" class="search-box">
                                 <div class="input-form">
-                                    <input type="text" placeholder="Job Tittle or keyword">
+                                    <input type="text" placeholder="Job Tittle or keyword" required>
                                 </div>
                                 <div class="select-form">
                                     <div class="select-itms">
-                                        <select name="select" id="select1">
-                                            <option value="">Location BD</option>
-                                            <option value="">Location PK</option>
-                                            <option value="">Location US</option>
-                                            <option value="">Location UK</option>
+                                        <select name="type" id="select1">
+                                            <option value="remote">Remote</option>
+                                            <option value="office">Office</option>
+                                            <option value="hybrid">Hybrid</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="search-form">
-                                    <a href="#">Find job</a>
+                                    <button type="submit" class="btn head-btn1" style="height: 70px;: 100%;">Find
+                                        job</button>
                                 </div>
                             </form>
                         </div>
@@ -157,7 +158,8 @@
     </div>
     <!-- Our Services End -->
     <!-- Online CV Area Start -->
-    <div class="online-cv cv-bg section-overly pt-90 pb-120" data-background="{{ asset('frontend/') }}/assets/img/gallery/cv_bg.jpg">
+    <div class="online-cv cv-bg section-overly pt-90 pb-120"
+        data-background="{{ asset('frontend/') }}/assets/img/gallery/cv_bg.jpg">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-xl-10">
@@ -178,108 +180,49 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-tittle text-center">
-                        <span>Recent Job</span>
-                        <h2>Featured Jobs</h2>
+                        <h2>Recent Job</h2>
                     </div>
                 </div>
             </div>
             <div class="row justify-content-center">
                 <div class="col-xl-10">
                     <!-- single-job-content -->
-                    <div class="single-job-items mb-30">
-                        <div class="job-items">
-                            <div class="company-img">
-                                <a href="job_details.html"><img src="{{ asset('frontend/') }}/assets/img/icon/job-list1.png" alt=""></a>
+                    @if (count($jobs) > 0)
+                        @foreach ($jobs as $job)
+                            <div class="single-job-items mb-30">
+                                <div class="job-items">
+                                    <div class="company-img">
+                                        <a href="job_details.html"><img src="{{ $job->company->logo }}"
+                                                alt="Company Logo" width="90px"></a>
+                                    </div>
+                                    <div class="job-tittle">
+                                        <a href="job_details.html">
+                                            <h4>{{ $job->title }}</h4>
+                                        </a>
+                                        <ul>
+                                            <li>{{ $job->company->company_name }}</li>
+                                            <li><i
+                                                    class="fas fa-map-marker-alt"></i>{{ !empty($job->location) ? $job->location : $job->company->location }}
+                                            </li>
+                                            <li>${{ $job->salary }}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="items-link f-right">
+                                    <a href="job_details.html">{{ $job->job_nature }}</a>
+                                    <span>{{ $job->created_at->diffForHumans() }}</span>
+                                </div>
                             </div>
-                            <div class="job-tittle">
-                                <a href="job_details.html">
-                                    <h4>Digital Marketer</h4>
-                                </a>
-                                <ul>
-                                    <li>Creative Agency</li>
-                                    <li><i class="fas fa-map-marker-alt"></i>Athens, Greece</li>
-                                    <li>$3500 - $4000</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="items-link f-right">
-                            <a href="job_details.html">Full Time</a>
-                            <span>7 hours ago</span>
-                        </div>
-                    </div>
-                    <!-- single-job-content -->
-                    <div class="single-job-items mb-30">
-                        <div class="job-items">
-                            <div class="company-img">
-                                <a href="job_details.html"><img src="{{ asset('frontend/') }}/assets/img/icon/job-list2.png" alt=""></a>
-                            </div>
-                            <div class="job-tittle">
-                                <a href="job_details.html">
-                                    <h4>Digital Marketer</h4>
-                                </a>
-                                <ul>
-                                    <li>Creative Agency</li>
-                                    <li><i class="fas fa-map-marker-alt"></i>Athens, Greece</li>
-                                    <li>$3500 - $4000</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="items-link f-right">
-                            <a href="job_details.html">Full Time</a>
-                            <span>7 hours ago</span>
-                        </div>
-                    </div>
-                    <!-- single-job-content -->
-                    <div class="single-job-items mb-30">
-                        <div class="job-items">
-                            <div class="company-img">
-                                <a href="job_details.html"><img src="{{ asset('frontend/') }}/assets/img/icon/job-list3.png" alt=""></a>
-                            </div>
-                            <div class="job-tittle">
-                                <a href="job_details.html">
-                                    <h4>Digital Marketer</h4>
-                                </a>
-                                <ul>
-                                    <li>Creative Agency</li>
-                                    <li><i class="fas fa-map-marker-alt"></i>Athens, Greece</li>
-                                    <li>$3500 - $4000</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="items-link f-right">
-                            <a href="job_details.html">Full Time</a>
-                            <span>7 hours ago</span>
-                        </div>
-                    </div>
-                    <!-- single-job-content -->
-                    <div class="single-job-items mb-30">
-                        <div class="job-items">
-                            <div class="company-img">
-                                <a href="job_details.html"><img src="{{ asset('frontend/') }}/assets/img/icon/job-list4.png" alt=""></a>
-                            </div>
-                            <div class="job-tittle">
-                                <a href="job_details.html">
-                                    <h4>Digital Marketer</h4>
-                                </a>
-                                <ul>
-                                    <li>Creative Agency</li>
-                                    <li><i class="fas fa-map-marker-alt"></i>Athens, Greece</li>
-                                    <li>$3500 - $4000</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="items-link f-right">
-                            <a href="job_details.html">Full Time</a>
-                            <span>7 hours ago</span>
-                        </div>
-                    </div>
+                        @endforeach
+                    @endif
                 </div>
             </div>
         </div>
     </section>
     <!-- Featured_job_end -->
     <!-- How  Apply Process Start-->
-    <div class="apply-process-area apply-bg pt-150 pb-150" data-background="{{ asset('frontend/') }}/assets/img/gallery/how-applybg.png">
+    <div class="apply-process-area apply-bg pt-150 pb-150"
+        data-background="{{ asset('frontend/') }}/assets/img/gallery/how-applybg.png">
         <div class="container">
             <!-- Section Tittle -->
             <div class="row">
@@ -343,7 +286,8 @@
                                 <!-- founder -->
                                 <div class="testimonial-founder  ">
                                     <div class="founder-img mb-30">
-                                        <img src="{{ asset('frontend/') }}/assets/img/testmonial/testimonial-founder.png" alt="">
+                                        <img src="{{ asset('frontend/') }}/assets/img/testmonial/testimonial-founder.png"
+                                            alt="">
                                         <span>Margaret Lawson</span>
                                         <p>Creative Director</p>
                                     </div>
@@ -362,7 +306,8 @@
                                 <!-- founder -->
                                 <div class="testimonial-founder  ">
                                     <div class="founder-img mb-30">
-                                        <img src="{{ asset('frontend/') }}/assets/img/testmonial/testimonial-founder.png" alt="">
+                                        <img src="{{ asset('frontend/') }}/assets/img/testmonial/testimonial-founder.png"
+                                            alt="">
                                         <span>Margaret Lawson</span>
                                         <p>Creative Director</p>
                                     </div>
@@ -381,7 +326,8 @@
                                 <!-- founder -->
                                 <div class="testimonial-founder  ">
                                     <div class="founder-img mb-30">
-                                        <img src="{{ asset('frontend/') }}/assets/img/testmonial/testimonial-founder.png" alt="">
+                                        <img src="{{ asset('frontend/') }}/assets/img/testmonial/testimonial-founder.png"
+                                            alt="">
                                         <span>Margaret Lawson</span>
                                         <p>Creative Director</p>
                                     </div>

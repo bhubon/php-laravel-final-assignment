@@ -16,21 +16,10 @@ class Role
     public function handle(Request $request, Closure $next, $role): Response
     {
 
-        // if ($request->user()->role === $role && $request->user()->role === 'admin') {
-        //     return redirect('/dashboard');
+        if ($request->user()->role == $role) {
+            return $next($request);
+        }
+        return redirect()->back()->with('warning', 'You dont have permission to access this page');
 
-        // } elseif ($request->user()->role === $role && $request->user()->role === 'company') {
-        //     return redirect('/company/dashboard');
-
-        // } elseif ($request->user()->role === $role && $request->user()->role === 'candidate') {
-        //     return redirect('/user/dashboard');
-
-        // } elseif ($request->user()->role !== $role) {
-        //     return redirect('/user/dashboard');
-        // }
-
-        
-
-        return $next($request);
     }
 }

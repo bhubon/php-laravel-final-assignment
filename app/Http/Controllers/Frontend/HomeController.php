@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Models\Job;
 use App\Models\User;
 use App\Mail\verifyMail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
     public function homePage()
     {
-        return view('frontend.pages.HomePage');
+        $jobs = Job::latest()->limit(5)->with(['company'])->get();
+        return view('frontend.pages.HomePage', ['jobs' => $jobs]);
     }
 
     public function frontendLogin()
@@ -43,23 +46,24 @@ class HomeController extends Controller
                 'email' => $request->email,
                 'phone' => $request->phone,
                 'password' => $request->password,
+                'role' => 'candidate',
+                'status' => 'active',
             ]);
 
-            $randomNumber = mt_rand(10000000000000000000, 99999999999999999999);
+            if ($user) {
+                $credentials = $request->only('email', 'password');
 
-            // Generate random string of 20 characters
-            $randomString = Str::random(20);
+                Auth::attempt($credentials);
 
-            $details = [
-                'otp' => $randomString,
-            ];
+                return redirect()->route('user.dashboard')->with('success', 'Successfully Registered!');
+            } else {
+                return redirect()->back()->with('warning', 'Something went wrong');
+            }
 
-            Mail::to($request->email)->send(new verifyMail($details));
-
-            return redirect()->route('frontend.verification')->with('success', 'Registered! Please verify your email');
 
         } catch (\Exception $e) {
-
+            return $e->getMessage();
+            return redirect()->back()->with('warning', 'Something went wrong');
         }
     }
 
