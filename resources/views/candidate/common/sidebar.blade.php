@@ -63,21 +63,27 @@
             </ul>
         </li>
         <li>
-            <a href="javascript:;">
+            <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="bx bx-category"></i>
                 </div>
-                <div class="menu-title">Plugins</div>
+                <div class="menu-title">Skills</div>
             </a>
+            <ul>
+                <li> <a href="{{ route('skills.create') }}"><i class="bx bx-right-arrow-alt"></i>Add New</a>
+                </li>
+                <li> <a href="{{ route('skills.index') }}"><i class="bx bx-right-arrow-alt"></i>All Skills</a>
+                </li>
+            </ul>
         </li>
         <li>
-            <a href="{{ route('company.profile') }}">
+            <a href="{{ route('user.profile') }}">
                 <div class="parent-icon"><i class="bx bx-category"></i>
                 </div>
                 <div class="menu-title">Account</div>
             </a>
         </li>
         <li>
-            <a href="{{ route('company.logout') }}">
+            <a href="{{ route('user.logout') }}">
                 <div class="parent-icon"><i class="bx bx-category"></i>
                 </div>
                 <div class="menu-title">Logout</div>

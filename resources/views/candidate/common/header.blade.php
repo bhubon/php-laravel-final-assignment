@@ -113,7 +113,7 @@
                             </div>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="{{ route('company.profile') }}"><i
+                            <li><a class="dropdown-item" href="{{ route('user.profile') }}"><i
                                         class="bx bx-user"></i><span>Profile</span></a>
                             </li>
 

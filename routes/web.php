@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\JobCategoryController;
 use App\Http\Controllers\Candidate\CandidateEducationController;
+use App\Http\Controllers\Candidate\CandidateskillsController;
 use App\Http\Controllers\Candidate\JobExperience;
 use App\Http\Controllers\Candidate\JobExperienceController;
 use App\Http\Controllers\Candidate\CandidateTrainingController;
@@ -99,6 +100,8 @@ Route::middleware(['auth', 'verified', 'role:candidate'])->group(function () {
     Route::get('/user/logout', [App\Http\Controllers\Candidate\DashboardController::class, 'logout'])->name('user.logout');
 
     Route::get('/user/applications', [App\Http\Controllers\Candidate\DashboardController::class, 'applications'])->name('user.applications');
+    Route::get('/user/profile', [App\Http\Controllers\Candidate\DashboardController::class, 'profile'])->name('user.profile');
+    Route::post('/user/profile', [App\Http\Controllers\Candidate\DashboardController::class, 'profileUpdate'])->name('user.profile.update');
 
     //job experiences
     Route::get('/user/job-experiences', [JobExperienceController::class, 'index'])->name('user.job.experiences');
@@ -115,6 +118,8 @@ Route::middleware(['auth', 'verified', 'role:candidate'])->group(function () {
     Route::resource('/user/trainings', CandidateTrainingController::class);
     //Education
     Route::resource('/user/education', CandidateEducationController::class);
+    //Skill
+    Route::resource('/user/skills', CandidateskillsController::class);
 });
 
 require __DIR__ . '/auth.php';
