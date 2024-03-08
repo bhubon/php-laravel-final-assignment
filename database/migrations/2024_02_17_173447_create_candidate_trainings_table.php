@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('candidate_id')->constrained('candidates')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('training_name');
             $table->string('institute_name');
-            $table->date('passing_year');
+            $table->string('passing_year');
             $table->timestamps();
         });
     }

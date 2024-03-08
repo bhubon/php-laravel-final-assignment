@@ -6,6 +6,10 @@ use App\Http\Controllers\Admin\BlogCategoryController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\JobCategoryController;
+use App\Http\Controllers\Candidate\CandidateEducationController;
+use App\Http\Controllers\Candidate\JobExperience;
+use App\Http\Controllers\Candidate\JobExperienceController;
+use App\Http\Controllers\Candidate\CandidateTrainingController;
 use App\Http\Controllers\Company\CompanyApplicationController;
 use App\Http\Controllers\Company\CompanyBlogController;
 use App\Http\Controllers\Company\CompanyDashboardController;
@@ -91,9 +95,26 @@ Route::middleware(['auth', 'verified', 'role:company'])->prefix('company')->grou
 
 //Candidate
 Route::middleware(['auth', 'verified', 'role:candidate'])->group(function () {
-    Route::get('/user/dashboard', function () {
-        echo 'Candidate';
-    })->name('user.dashboard');
+    Route::get('/user/dashboard', [App\Http\Controllers\Candidate\DashboardController::class, 'dashboard'])->name('user.dashboard');
+    Route::get('/user/logout', [App\Http\Controllers\Candidate\DashboardController::class, 'logout'])->name('user.logout');
+
+    Route::get('/user/applications', [App\Http\Controllers\Candidate\DashboardController::class, 'applications'])->name('user.applications');
+
+    //job experiences
+    Route::get('/user/job-experiences', [JobExperienceController::class, 'index'])->name('user.job.experiences');
+
+    Route::get('/user/job-experiences/create', [JobExperienceController::class, 'create'])->name('user.job.experiences.create');
+    Route::post('/user/job-experiences/create', [JobExperienceController::class, 'store'])->name('user.job.experiences.store');
+
+    Route::get('/user/job-experiences/{id}', [JobExperienceController::class, 'edit'])->name('user.job.experiences.edit');
+    Route::put('/user/job-experiences/{id}', [JobExperienceController::class, 'update'])->name('user.job.experiences.update');
+
+    Route::delete('/user/job-experiences/{id}', [JobExperienceController::class, 'destroy'])->name('user.job.experiences.delete');
+
+    //trainig
+    Route::resource('/user/trainings', CandidateTrainingController::class);
+    //Education
+    Route::resource('/user/education', CandidateEducationController::class);
 });
 
 require __DIR__ . '/auth.php';
