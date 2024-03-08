@@ -74,11 +74,33 @@ class HomeController extends Controller
 
     }
 
-    public function allJobs()
+    public function allJobs(Request $request)
     {
         $jobs_categories = JobCategory::with('jobs')->latest()->limit(8)->get();
-        $jobs = Job::where(['status' => 'active'])->latest()->limit(5)->with(['company'])->paginate(10);
-        return view('frontend.pages.AllJobs', ['jobs' => $jobs, 'jobs_categories' => $jobs_categories]);
+        $jobs = Job::where(['status' => 'active'])->latest()->with(['company'])->paginate(10);
+        $jobs = Job::query();
+
+        if (isset($request->title) && !empty($request->title)) {
+            $title = isset($request->title) && !empty($request->title) ? trim($request->title) : '';
+            $jobs->where('title', 'LIKE', "%{$title}%");
+        }
+
+        if (isset($request->job_type) && !empty($request->job_type)) {
+            $job_type = isset($request->job_type) && !empty($request->job_type) ? $request->job_type : '';
+
+            $jobs->where(['job_type' => $job_type]);
+        }
+
+        if (isset($request->category) && !empty($request->category)) {
+            $category = isset($request->category) && !empty($request->category) ? $request->category : '';
+
+            $jobs->where(['category_id' => $category]);
+        }
+
+        $filteredJobs = $jobs->where(['status' => 'active'])->latest()->with(['company'])->paginate(10);
+        ;
+
+        return view('frontend.pages.AllJobs', ['jobs' => $filteredJobs, 'jobs_categories' => $jobs_categories]);
     }
 
     public function jodDetails(string $id)

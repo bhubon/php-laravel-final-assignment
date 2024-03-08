@@ -18,14 +18,14 @@
                     <div class="row">
                         <div class="col-xl-8">
                             <!-- form -->
-                            <form action="#" class="search-box">
+                            <form action="{{ route('frontend.jobs') }}" class="search-box">
                                 <div class="input-form">
-                                    <input type="text" placeholder="Job Tittle or keyword" required>
+                                    <input name="title" type="text" placeholder="Job Tittle or keyword" required>
                                 </div>
                                 <div class="select-form">
                                     <div class="select-itms">
-                                        <select name="type" id="select1">
-                                            <option value="remote">Remote</option>
+                                        <select name="job_type" id="select1">
+                                            <option value="remote" selected>Remote</option>
                                             <option value="office">Office</option>
                                             <option value="hybrid">Hybrid</option>
                                         </select>
@@ -69,7 +69,7 @@
 
                                 </div>
                                 <div class="services-cap">
-                                    <h5><a href="job_listing.html">{{ $job_category->name }}</a></h5>
+                                    <h5><a href="{{ "/jobs?category=$job_category->id" }}">{{ $job_category->name }}</a></h5>
                                     <span>({{ count($job_category->jobs) }})</span>
                                 </div>
                             </div>
