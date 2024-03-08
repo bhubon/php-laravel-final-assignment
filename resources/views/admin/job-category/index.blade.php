@@ -28,6 +28,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
+                                    <th>icon</th>
                                     <th>Created At</th>
                                     <th>Action</th>
                                 </tr>
@@ -38,6 +39,9 @@
                                         <tr>
                                             <td>{{ $category->id }}</td>
                                             <td>{{ $category->name }}</td>
+                                            <td>
+                                                <img src="{{ !empty($category->icon) ? asset($category->icon) : asset('uploads/placeholder.jpg') }}" alt="Icon" style="width:60px;">
+                                            </td>
                                             <td>{{ date('d M, Y', strtotime($category->created_at)) }}</td>
                                             <td>
                                                 <div class="d-flex">

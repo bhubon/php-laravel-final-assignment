@@ -39,7 +39,7 @@
                             <textarea type="text" name="description" placeholder="Enter Description" class="form-control" id="description">{{ old('description') }}</textarea>
                         </div>
                         <div class="col-md-12">
-                            <label for="requirements" class="form-label">Requirements*</label>
+                            <label for="requirements" class="form-label">Required Knowledge, Skills, and Abilities*</label>
                             <textarea type="text" name="requirements" placeholder="Enter Requirements" class="form-control" id="requirements">{{ old('requirements') }}</textarea>
                         </div>
                         <div class="col-md-12">
@@ -83,7 +83,7 @@
                         <div class="col-md-6">
                             <label for="deadline" class="form-label">Deadline*</label>
                             <input type="date" name="deadline" class="form-control" id="deadline"
-                                value="{{ date('Y-m-d', strtotime(old('deadline'))) }}">
+                                value="{{ !empty(old('deadline')) ? date('Y-m-d', strtotime(old('deadline'))) : '' }}">
                         </div>
 
                         <div class="col-md-12">

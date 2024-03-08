@@ -9,5 +9,10 @@ class JobCategory extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'icon'];
+
+    public function jobs()
+    {
+        return $this->hasMany(Job::class,'category_id');
+    }
 }

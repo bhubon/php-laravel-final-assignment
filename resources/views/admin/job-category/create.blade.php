@@ -23,12 +23,17 @@
                     </div>
                     <hr>
                     @include('components.validatation')
-                    <form class="row g-3" method="POST" action="{{ route('job-category.store') }}">
+                    <form class="row g-3" method="POST" action="{{ route('job-category.store') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="col-md-12">
                             <label for="name" class="form-label">Name*</label>
                             <input type="text" name="name" placeholder="Enter Category Name" class="form-control"
                                 id="name" value="{{ old('name') }}">
+                        </div>
+                        <div class="col-md-12">
+                            <label for="icon" class="form-label">Icon</label>
+                            <input type="file" name="icon" class="form-control"
+                                id="icon">
                         </div>
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary px-5">Submit</button>

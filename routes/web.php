@@ -31,6 +31,9 @@ Route::get('/flogin', [HomeController::class, 'frontendLogin'])->name('frontend.
 Route::get('/fregistration', [HomeController::class, 'frontendRegister'])->name('frontend.registration');
 Route::post('/registration', [HomeController::class, 'frontendRegisterSubmit'])->name('frontend.registrationSubmit');
 Route::post('/verification', [HomeController::class, 'verification'])->name('frontend.verification');
+Route::get('/jobs', [HomeController::class, 'allJobs'])->name('frontend.jobs');
+Route::get('/jobs/{id}', [HomeController::class, 'jodDetails'])->name('frontend.jobs.details');
+Route::post('/jobs/apply/{id}', [HomeController::class, 'applyJob'])->name('frontend.jobs.apply');
 
 
 

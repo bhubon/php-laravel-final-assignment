@@ -23,13 +23,20 @@
                     </div>
                     <hr>
                     @include('components.validatation')
-                    <form class="row g-3" method="POST" action="{{ route('job-category.update',$category->id) }}">
+                    <form class="row g-3" method="POST" action="{{ route('job-category.update', $category->id) }}"
+                        enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="col-md-12">
                             <label for="name" class="form-label">Name*</label>
                             <input type="text" name="name" placeholder="Enter Category Name" class="form-control"
                                 id="name" value="{{ old('name', $category->name) }}">
+                        </div>
+                        <div class="col-md-12">
+                            <label for="icon" class="form-label">Icon</label>
+                            <input type="file" name="icon" class="form-control" id="icon">
+
+                            <img src="{{ !empty($category->icon) ? asset($category->icon) : asset('uploads/placeholder.jpg') }}" alt="Icon" style="width:120px;margin-top:20px;">
                         </div>
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary px-5">Submit</button>

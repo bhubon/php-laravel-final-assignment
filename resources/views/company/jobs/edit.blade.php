@@ -40,7 +40,7 @@
                             <textarea type="text" name="description" placeholder="Enter Description" class="form-control" id="description">{{ old('description', $job->description) }}</textarea>
                         </div>
                         <div class="col-md-12">
-                            <label for="requirements" class="form-label">Requirements*</label>
+                            <label for="requirements" class="form-label">Required Knowledge, Skills, and Abilities*</label>
                             <textarea type="text" name="requirements" placeholder="Enter Requirements" class="form-control" id="requirements">{{ old('requirements', $job->requirements) }}</textarea>
                         </div>
                         <div class="col-md-12">

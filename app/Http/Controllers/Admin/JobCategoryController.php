@@ -35,8 +35,19 @@ class JobCategoryController extends Controller
         ]);
 
         try {
+            $img_url = '';
+            if ($request->hasFile('icon')) {
+                $img = $request->file('icon');
+                $t = time();
+                $fileName = $img->getClientOriginalName();
+                $img_name = "{$t}-{$fileName}";
+                $img_url = "/uploads/{$img_name}";
+                $img->move(public_path("uploads"), $img_name);
+            }
+
             JobCategory::create([
                 'name' => $request->name,
+                'icon' => $img_url,
             ]);
             return redirect()->route('job-category.index')->with('success', 'Category Created');
         } catch (\Error $e) {
@@ -64,8 +75,28 @@ class JobCategoryController extends Controller
 
         try {
             $category = JobCategory::findOrFail($id);
+
+            $img_url = $category->icon;
+
+            if ($request->hasFile('icon')) {
+                $img = $request->file('icon');
+                $t = time();
+                $fileName = $img->getClientOriginalName();
+                $img_name = "{$t}-{$fileName}";
+                $img_url = "/uploads/{$img_name}";
+                $img->move(public_path("uploads"), $img_name);
+
+                if (!empty($category->icon)) {
+                    $old_image = public_path($category->icon);
+                    if (file_exists($old_image)) {
+                        unlink($old_image);
+                    }
+                }
+            }
+
             $category->update([
                 'name' => $request->name,
+                'icon' => $img_url,
             ]);
             return redirect()->back()->with('success', 'Category Updated');
         } catch (\Error $e) {
@@ -80,6 +111,12 @@ class JobCategoryController extends Controller
     {
         try {
             $category = JobCategory::findOrFail($id);
+            if (!empty($category->icon)) {
+                $old_image = public_path($category->icon);
+                if (file_exists($old_image)) {
+                    unlink($old_image);
+                }
+            }
             $category->delete();
 
             return redirect()->back()->with('success', 'Category Deleted');
