@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Candidate;
 
 use App\Models\Application;
+use App\Models\CandidateJobExperience;
+use App\Models\CandidateSkills;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -12,7 +15,13 @@ class DashboardController extends Controller
 {
     public function dashboard()
     {
-        return view('candidate.dashboard');
+        $user = auth()->user();
+        $applications = Application::where(['user_id' => $user->id])->with(['job'])->latest()->limit(5)->get();
+        $success_applications = Application::where(['user_id' => $user->id,'status'=>'accepted'])->count();
+        $experience = CandidateJobExperience::where(['candidate_id' => $user->candidate->id])->count();
+        $skills = CandidateSkills::where(['candidate_id' => $user->candidate->id])->count();
+        // dd($applied_jobs);
+        return view('candidate.dashboard',['applications'=>$applications,'success_applications'=>$success_applications,'experience'=>$experience,'skills'=>$skills]);
     }
 
     public function logout(Request $request)
@@ -51,7 +60,7 @@ class DashboardController extends Controller
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'social_id' => 'nullable|string|max:255',
             'passport_no' => 'nullable|string|max:255',
-            'emergency_contact_number' => 'required|string|max:255',
+            'phone_number' => 'required|string|max:255',
             'whatsapp_number' => 'nullable|string|max:255',
             'facebook_link' => 'nullable|url|max:255',
             'linkedin_link' => 'nullable|url|max:255',
@@ -59,9 +68,16 @@ class DashboardController extends Controller
             'behance_link' => 'nullable|url|max:255',
             'portfolio_link' => 'nullable|url|max:255',
             'resume' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'phone' => 'required|max:255',
+            'password' => 'nullable|min:8|confirmed',
         ]);
 
         try {
+
+            DB::beginTransaction();
+
             $user = auth()->user();
             $candidate = $user->candidate;
 
@@ -109,7 +125,7 @@ class DashboardController extends Controller
                 'blood_group' => $request->input('blood_group'),
                 'social_id' => $request->input('social_id'),
                 'passport_no' => $request->input('passport_no'),
-                'emergency_contact_number' => $request->input('emergency_contact_number'),
+                'emergency_contact_number' => $request->input('phone_number'),
                 'whatsapp_number' => $request->input('whatsapp_number'),
                 'facebook_link' => $request->input('facebook_link'),
                 'linkedin_link' => $request->input('linkedin_link'),
@@ -120,9 +136,21 @@ class DashboardController extends Controller
                 'resume' => $pdf_url,
             ]);
 
-            return redirect()->back()->with('scuccess', 'Profile Updated');
+            $user->update([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'phone' => $request->phone,
+                'password' => bcrypt($request->password),
+            ]);
+
+
+            Db::commit();
+
+            return redirect()->back()->with('success', 'Profile Updated');
         } catch (\Exception $e) {
-            return $e->getMessage();
+            DB::rollBack();
+            // return $e->getMessage();
+            return redirect()->back()->with('warning', 'Something went wrong');
 
         }
 
