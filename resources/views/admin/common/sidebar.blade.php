@@ -1,13 +1,8 @@
 <!--sidebar wrapper -->
 <div class="sidebar-wrapper" data-simplebar="true">
-    <div class="sidebar-header">
+    <div class="sidebar-header" style="justify-content: center;">
         <div>
-            <img src="assets/images/logo-icon.png" class="logo-icon" alt="logo icon">
-        </div>
-        <div>
-            <h4 class="logo-text">Rukada</h4>
-        </div>
-        <div class="toggle-icon ms-auto"><i class='bx bx-arrow-to-left'></i>
+            <img src="{{ asset('uploads/admin-logo.png') }}" class="logo-icon" alt="logo icon" style="width: 120px;">
         </div>
     </div>
     <!--navigation-->
@@ -91,11 +86,19 @@
         </li>
         <li class="menu-label">Others</li>
         <li>
-            <a href="#">
+            <a href="{{ route('admin.users') }}">
+                <div class="parent-icon"><i class="bx bx-category"></i>
+                </div>
+                <div class="menu-title">All Users</div>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('admin.profile') }}">
                 <div class="parent-icon"><i class="bx bx-category"></i>
                 </div>
                 <div class="menu-title">My Account</div>
             </a>
+        </li>
         <li>
             <a href="{{ route('admin.logout') }}">
                 <div class="parent-icon"><i class="bx bx-category"></i>

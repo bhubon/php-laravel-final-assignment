@@ -33,7 +33,8 @@ use Illuminate\Support\Facades\Route;
 //frontend
 Route::get('/', [HomeController::class, 'homePage'])->name('frontend.home');
 Route::get('/flogin', [HomeController::class, 'frontendLogin'])->name('frontend.login');
-Route::get('/fregistration', [HomeController::class, 'frontendRegister'])->name('frontend.registration');
+Route::get('/company-registration', [HomeController::class, 'companyRegistration'])->name('frontend.registration.company');
+Route::post('/company-registration', [HomeController::class, 'frontendCompanyRegisterSubmit'])->name('frontend.company.registrationSubmit');
 Route::post('/registration', [HomeController::class, 'frontendRegisterSubmit'])->name('frontend.registrationSubmit');
 Route::post('/verification', [HomeController::class, 'verification'])->name('frontend.verification');
 Route::get('/jobs', [HomeController::class, 'allJobs'])->name('frontend.jobs');
@@ -49,15 +50,17 @@ Route::get('/admin/login', function () {
 //Admin
 Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(function () {
 
-    //Profile
-    // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
+    
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/logout', [DashboardController::class, 'adminLogout'])->name('admin.logout');
-
+    Route::get('/users', [DashboardController::class, 'all_user'])->name('admin.users');
+    Route::get('/users/{id}', [DashboardController::class, 'user_details'])->name('admin.users.details');
+    Route::get('/candidate/{id}', [DashboardController::class, 'candidate_details'])->name('admin.candidate.details');
+    //Profile
+    Route::get('/profile', [DashboardController::class, 'profile'])->name('admin.profile');
+    Route::post('/profile', [DashboardController::class, 'profile_update'])->name('admin.profile.update');
+    
     //company
     Route::resource('/companies', CompanyController::class);
     //job category

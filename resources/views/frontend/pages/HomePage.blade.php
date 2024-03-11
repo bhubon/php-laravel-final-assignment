@@ -69,7 +69,8 @@
 
                                 </div>
                                 <div class="services-cap">
-                                    <h5><a href="{{ "/jobs?category=$job_category->id" }}">{{ $job_category->name }}</a></h5>
+                                    <h5><a href="{{ "/jobs?category=$job_category->id" }}">{{ $job_category->name }}</a>
+                                    </h5>
                                     <span>({{ count($job_category->jobs) }})</span>
                                 </div>
                             </div>
@@ -116,11 +117,11 @@
                             <div class="single-job-items mb-30">
                                 <div class="job-items">
                                     <div class="company-img">
-                                        <a href="job_details.html"><img src="{{ $job->company->logo }}" alt="Company Logo"
-                                                width="90px"></a>
+                                        <a href="{{ route('frontend.jobs.details', $job->id) }}"><img
+                                                src="{{ $job->company->logo }}" alt="Company Logo" width="90px"></a>
                                     </div>
                                     <div class="job-tittle">
-                                        <a href="job_details.html">
+                                        <a href="{{ route('frontend.jobs.details', $job->id) }}">
                                             <h4>{{ $job->title }}</h4>
                                         </a>
                                         <ul>
@@ -133,12 +134,15 @@
                                     </div>
                                 </div>
                                 <div class="items-link f-right">
-                                    <a href="job_details.html">{{ $job->job_nature }}</a>
+                                    <a href="{{ route('frontend.jobs.details', $job->id) }}">{{ $job->job_nature }}</a>
                                     <span>{{ $job->created_at->diffForHumans() }}</span>
                                 </div>
                             </div>
                         @endforeach
                     @endif
+                </div>
+                <div class="col-12 text-center">
+                    <a href="{{ route('frontend.jobs') }}" class="btn head-btn1">All Jobs</a>
                 </div>
             </div>
         </div>
