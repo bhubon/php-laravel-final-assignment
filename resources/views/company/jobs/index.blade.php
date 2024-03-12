@@ -16,11 +16,23 @@
     </div>
     <div class="card radius-10">
         <div class="card-body">
-            <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center" style="justify-content: space-between;">
                 <div>
                     <h5 class="mb-0">All Jobs</h5>
                 </div>
-                <div class="font-22 ms-auto"><i class="bx bx-dots-horizontal-rounded"></i>
+                <div>
+                    <form action="" method="GET" class="d-flex">
+                        <input type="month" name="month" class="form-control" placeholder="Select Month" value="{{ request()->input('month') ? \Carbon\Carbon::parse(request()->input('month'))->format('Y-m') : '' }}">
+
+                        <select name="status" id="status" class="form-control mx-2">
+                            <option value="">Select</option>
+                            <option {{ request()->status == 'active' ? 'selected' : '' }} value="active">Active
+                            </option>
+                            <option {{ request()->status == 'inactive' ? 'selected' : '' }} value="inactive">
+                                Inactive</option>
+                        </select>
+                        <button type="submit" class="btn btn-success mx-2">Filter</button>
+                    </form>
                 </div>
             </div>
             <hr>
@@ -42,9 +54,15 @@
                                 <tr>
                                     <td>{{ $job->id }}</td>
                                     <td>{{ $job->title }}</td>
-                                    <td>{{ date('d m,Y', strtotime($job->deadline)) }}</td>
-                                    <td>applied</td>
-                                    <td>{{ $job->status }}</td>
+                                    <td>{{ date('d M, Y', strtotime($job->deadline)) }}</td>
+                                    <td>{{ count($job->applications) }}</td>
+                                    <td>
+                                        @if ($job->status == 'active')
+                                            <span class="btn btn-sm btn-success">{{ ucwords($job->status) }}</span>
+                                        @else
+                                            <span class="btn btn-sm btn-warning">{{ ucwords($job->status) }}</span>
+                                        @endif
+                                    </td>
                                     <td>
                                         <div class="d-flex">
                                             <a href="{{ route('jobs.edit', $job->id) }}"

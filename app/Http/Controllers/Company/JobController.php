@@ -15,10 +15,30 @@ class JobController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $user_id = Auth::user()->id;
-        $jobs = Job::where('user_id', $user_id)->paginate(10);
+
+        $jobs = Job::query();
+
+        if (!empty($request->status)) {
+            $jobs->where('status', $request->status);
+        }
+
+
+
+        if (!empty($request->month)) {
+
+            $date = $request->month;
+            $date = explode('-',$date);
+            $inputMonth = $date[1];
+            $inputYear = $date[0];
+
+            $jobs->whereYear('created_at', $inputYear)
+                ->whereMonth('created_at', $inputMonth);
+        }
+
+        $jobs = $jobs->where('user_id', $user_id)->with(['applications'])->paginate(10);
         return view('company.jobs.index', ['jobs' => $jobs]);
     }
 

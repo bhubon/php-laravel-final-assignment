@@ -16,9 +16,28 @@
             </div>
             <div class="card radius-10">
                 <div class="card-body">
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center" style="justify-content: space-between;">
                         <div>
                             <h5 class="mb-0">All Jobs</h5>
+                        </div>
+                        <div>
+                            <form action="" method="GET" class="d-flex">
+                                <select name="company" id="company" class="form-control">
+                                    <option value="">Select Company</option>
+                                    @foreach ($companies as $company)
+                                        <option {{ request()->company == $company->id ? 'selected' : '' }}
+                                            value="{{ $company->id }}">{{ $company->company_name }}</option>
+                                    @endforeach
+                                </select>
+                                <select name="status" id="status" class="form-control mx-2">
+                                    <option value="">Select</option>
+                                    <option {{ request()->status == 'active' ? 'selected' : '' }} value="active">Active
+                                    </option>
+                                    <option {{ request()->status == 'inactive' ? 'selected' : '' }} value="inactive">
+                                        Inactive</option>
+                                </select>
+                                <button type="submit" class="btn btn-success mx-2">Filter</button>
+                            </form>
                         </div>
                     </div>
                     <hr>
@@ -44,7 +63,17 @@
                                                     href="{{ route('companies.edit', $job->company->id) }}">{{ $job->company->company_name }}</a>
                                             </td>
                                             <td>{{ date('d M, Y', strtotime($job->created_at)) }}</td>
-                                            <td>{{ Str::ucfirst($job->status) }}</td>
+                                            <td>
+
+                                                @if ($job->status == 'active')
+                                                    <span class="btn btn-sm btn-success">
+                                                        {{ Str::ucfirst($job->status) }}</span>
+                                                @else
+                                                    <span class="btn btn-sm btn-warning">
+                                                        {{ Str::ucfirst($job->status) }}</span>
+                                                @endif
+
+                                            </td>
                                             <td>
                                                 <a href="{{ route('admin.jobs.edit', $job->id) }}"
                                                     class="btn btn-sm btn-success">View</a>

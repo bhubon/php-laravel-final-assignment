@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Job;
+use App\Models\Company;
 use App\Models\JobCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,10 +14,23 @@ class AdminJobController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $jobs = Job::with('company')->latest()->paginate(10);
-        return view('admin.job.index', ['jobs' => $jobs]);
+        $jobs = Job::query();
+
+        if (!empty($request->company)) {
+            $jobs->whereHas('company', function ($query) use ($request) {
+                return $query->where('id', $request->company);
+            });
+        }
+
+        if (!empty($request->status)) {
+            $jobs->where('status', $request->status);
+        }
+
+        $jobs = $jobs->with('company')->latest()->paginate(10);
+        $companies = Company::latest()->select('id', 'company_name')->get();
+        return view('admin.job.index', ['jobs' => $jobs, 'companies' => $companies]);
     }
 
     /**

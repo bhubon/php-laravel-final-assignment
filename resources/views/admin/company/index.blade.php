@@ -16,9 +16,21 @@
             </div>
             <div class="card radius-10">
                 <div class="card-body">
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex" style="justify-content: space-between;">
                         <div>
                             <h5 class="mb-0">All Companies</h5>
+                        </div>
+                        <div>
+                            <form action="" method="GET" class="d-flex">
+                                <select name="status" id="status" class="form-control">
+                                    <option value="">Select</option>
+                                    <option {{ request()->status == 'active' ? 'selected' : '' }} value="active">Active
+                                    </option>
+                                    <option {{ request()->status == 'inactive' ? 'selected' : '' }} value="inactive">
+                                        Inactive</option>
+                                </select>
+                                <button type="submit" class="btn btn-success mx-2">Filter</button>
+                            </form>
                         </div>
                     </div>
                     <hr>
@@ -43,9 +55,10 @@
                                             <td><a href="">{{ $company->user->first_name }}
                                                     {{ $company->user->last_name }}</a></td>
                                             <td>{{ Str::ucfirst($company->user->status) }}</td>
-                                            <td>{{ date('d M, Y',strtotime($company->created_at)) }}</td>
+                                            <td>{{ date('d M, Y', strtotime($company->created_at)) }}</td>
                                             <td>
-                                                <a href="{{ route('companies.edit',$company->id) }}" class="btn btn-sm btn-success">View</a>
+                                                <a href="{{ route('companies.edit', $company->id) }}"
+                                                    class="btn btn-sm btn-success">View</a>
                                             </td>
                                         </tr>
                                     @endforeach

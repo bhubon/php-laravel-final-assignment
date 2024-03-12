@@ -13,9 +13,15 @@ class CompanyController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $companies = Company::with('user')->latest()->paginate();
+        $companies = Company::query();
+        if (!empty($request->status)) {
+            $companies->whereHas('user', function ($query) use ($request) {
+                $query->where('status', $request->status);
+            });
+        }
+        $companies =  $companies->with('user')->latest()->paginate();
         return view('admin.company.index', ['companies' => $companies]);
     }
 
