@@ -16,11 +16,38 @@
     </div>
     <div class="card radius-10">
         <div class="card-body">
-            <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center" style="justify-content: space-between;">
                 <div>
                     <h5 class="mb-0">All Applications</h5>
                 </div>
-                <div class="font-22 ms-auto"><i class="bx bx-dots-horizontal-rounded"></i>
+                <div>
+                    <form action="" method="GET" class="d-flex">
+                        <div class="mx-2">
+                            <label for="job_id">Select Job</label>
+                            <select name="job_id" id="job_id" class="form-control">
+                                <option value="">Select Job</option>
+                                @foreach($jobs as $job)
+                                <option {{ request()->job_id == $job->id ? 'selected' : '' }} value="{{ $job->id }}">{{ $job->title }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mx-2">
+                            <label for="status">Status</label>
+                            <select name="status" id="status" class="form-control">
+                                <option value="">Select</option>
+                                <option {{ request()->status == 'pending' ? 'selected' : '' }} value="pending">Pending</option>
+                                <option {{ request()->status == 'short-listed' ? 'selected' : '' }} value="short-listed">Short-Listed</option>
+                                <option {{ request()->status == 'accepted' ? 'selected' : '' }} value="accepted">Accepted</option>
+                                <option {{ request()->status == 'rejected' ? 'selected' : '' }} value="rejected">Rejected</option>
+                            </select>
+                        </div>
+                        <div class="mx-2">
+                            <label for=""></label><br>
+                            <button type="submit" class="btn btn-success mx-2">Filter</button>
+                        </div>
+                    </form>
                 </div>
             </div>
             <hr>

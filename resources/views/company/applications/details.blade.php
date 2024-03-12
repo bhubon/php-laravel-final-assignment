@@ -61,11 +61,11 @@
                                 href="{{ route('jobs.edit', $application->job->id) }}">{{ $application->job->title }}</a>
                         </h5>
                         <div class="details-data">
-                            <div class="row justify-between" style="justify-content: space-between !important;">
-                                <div class="col-md-3 mt-2 mr-3">
+                            <div class="row justify-between user-date" style="justify-content: space-between !important;">
+                                <div class="col-md-4 mt-2">
                                     <h5>User Details</h5>
                                     <div class="table-responsive">
-                                        <table class="table">
+                                        <table class="table table-bordered">
                                             <tbody>
                                                 <tr>
                                                     <td>Name</td>
@@ -133,16 +133,16 @@
                                                 </tr>
                                                 <tr>
                                                     <td>Resume</td>
-                                                    <td>{{ $application->user->candidate->resume }}</td>
+                                                    <td><a href="{{ $application->user->candidate->resume }}" target="_blank" class="btn btn-sm btn-success">View Resume</a></td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
-                                <div class="col-md-3 mx-3">
+                                <div class="col-md-4">
                                     <h5 class="text-center">Education</h5>
                                     <div class="table-responsive">
-                                        <table class="table">
+                                        <table class="table table-bordered">
                                             <thead>
                                                 <tr>
                                                     <th>Degree Type</th>
@@ -168,10 +168,10 @@
                                         </table>
                                     </div>
                                 </div>
-                                <div class="col-md-3 mx-4">
+                                <div class="col-md-4">
                                     <h5 class="text-center">Trainings</h5>
                                     <div class="table-responsive">
-                                        <table class="table">
+                                        <table class="table table-bordered">
                                             <thead>
                                                 <tr>
                                                     <th>Training</th>
@@ -196,10 +196,10 @@
                                     </div>
                                 </div>
                                 <hr>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <h5 class="text-center">Job Experience</h5>
                                     <div class="table-responsive">
-                                        <table class="table">
+                                        <table class="table table-bordered">
                                             <thead>
                                                 <tr>
                                                     <th>Designation</th>
@@ -227,7 +227,7 @@
                                         </table>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <h5>Skills</h5>
                                     @php
                                         $skills = $application->user->candidate->skills;

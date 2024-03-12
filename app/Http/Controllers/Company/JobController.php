@@ -38,7 +38,7 @@ class JobController extends Controller
                 ->whereMonth('created_at', $inputMonth);
         }
 
-        $jobs = $jobs->where('user_id', $user_id)->with(['applications'])->paginate(10);
+        $jobs = $jobs->where('user_id', $user_id)->latest()->with(['applications'])->paginate(10);
         return view('company.jobs.index', ['jobs' => $jobs]);
     }
 

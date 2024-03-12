@@ -105,8 +105,19 @@
                                     @if ($application)
                                         <button type="button" class="btn">Allready Applied</button>
                                     @else
+                                    @include('components.validatation')
                                         <form action="{{ route('frontend.jobs.apply', $job->id) }}" method="POST">
                                             @csrf
+                                            <div class="d-flex mb-3">
+                                                <div class="form-grpup mr-1">
+                                                    <label for="current_salaries">Current Salary</label>
+                                                    <input type="text" id="current_salaries" name="current_salary" class="form-control" required placeholder="Current Salary">
+                                                </div>
+                                                <div class="form-grpup ml-1">
+                                                    <label for="expected_salaried">Expected Salary</label>
+                                                    <input type="text" id="expected_salaried" name="expected_salary" class="form-control" required placeholder="Current Salary">
+                                                </div>
+                                            </div>
                                             <button type="submit" class="btn">Apply Now</button>
                                         </form>
                                     @endif

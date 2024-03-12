@@ -19,7 +19,7 @@ class HomeController extends Controller
     public function homePage()
     {
         $jobs_categories = JobCategory::with('jobs')->latest()->limit(8)->get();
-        $jobs = Job::with(['company'])->latest()->limit(5)->get();
+        $jobs = Job::where('status', 'active')->with(['company'])->latest()->limit(5)->get();
         return view('frontend.pages.HomePage', ['jobs' => $jobs, 'jobs_categories' => $jobs_categories]);
     }
 
@@ -163,8 +163,12 @@ class HomeController extends Controller
         return view('frontend.pages.JobDetails', ['job' => $job]);
     }
 
-    public function applyJob(string $id)
+    public function applyJob(Request $request, string $id)
     {
+        $request->validate([
+            'current_salary' => 'required',
+            'expected_salary' => 'required',
+        ]);
         try {
             $job = Job::where(['id' => $id, 'status' => 'active'])->with(['company'])->first();
 
@@ -210,10 +214,13 @@ class HomeController extends Controller
                 'job_id' => $id,
                 'user_id' => $user_id,
                 'company_id' => $job->company->id,
+                'current_salary' => $request->current_salary,
+                'expected_salary' => $request->expected_salary,
             ]);
 
             return redirect()->back()->with('success', 'Successfully Applied');
         } catch (\Exception $e) {
+            return $e->getMessage();
             return redirect()->back()->with('warning', 'Something went wrong');
         }
 

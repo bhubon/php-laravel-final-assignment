@@ -22,16 +22,26 @@
                 </div>
                 <div>
                     <form action="" method="GET" class="d-flex">
-                        <input type="month" name="month" class="form-control" placeholder="Select Month" value="{{ request()->input('month') ? \Carbon\Carbon::parse(request()->input('month'))->format('Y-m') : '' }}">
+                        <div>
+                            <label for="month">Posted (Month)</label>
+                            <input type="month" name="month" id="month" class="form-control" placeholder="Select Month"
+                                value="{{ request()->input('month') ? \Carbon\Carbon::parse(request()->input('month'))->format('Y-m') : '' }}">
+                        </div>
 
-                        <select name="status" id="status" class="form-control mx-2">
-                            <option value="">Select</option>
-                            <option {{ request()->status == 'active' ? 'selected' : '' }} value="active">Active
-                            </option>
-                            <option {{ request()->status == 'inactive' ? 'selected' : '' }} value="inactive">
-                                Inactive</option>
-                        </select>
-                        <button type="submit" class="btn btn-success mx-2">Filter</button>
+                        <div>
+                            <label for="status">Status</label>
+                            <select name="status" id="status" class="form-control mx-2">
+                                <option value="">Select</option>
+                                <option {{ request()->status == 'active' ? 'selected' : '' }} value="active">Active
+                                </option>
+                                <option {{ request()->status == 'inactive' ? 'selected' : '' }} value="inactive">
+                                    Inactive</option>
+                            </select>
+                        </div>
+                        <div class="mx-2">
+                            <label for=""></label><br>
+                            <button type="submit" class="btn btn-success mx-2">Filter</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -44,8 +54,10 @@
                             <th>Title</th>
                             <th>Deadline</th>
                             <th>Applied Yet</th>
+                            <th>Posted On</th>
                             <th>Status</th>
                             <th>Action</th>
+                            <th>Candidates</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -56,6 +68,7 @@
                                     <td>{{ $job->title }}</td>
                                     <td>{{ date('d M, Y', strtotime($job->deadline)) }}</td>
                                     <td>{{ count($job->applications) }}</td>
+                                    <td>{{ date('d M, Y', strtotime($job->created_at)) }}</td>
                                     <td>
                                         @if ($job->status == 'active')
                                             <span class="btn btn-sm btn-success">{{ ucwords($job->status) }}</span>
@@ -74,6 +87,10 @@
                                                     class="btn btn-sm btn-danger">Delete</button>
                                             </form>
                                         </div>
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('applications.index') }}?job_id={{ $job->id }}"
+                                            class="btn btn-sm btn-primary">View Candidates</a>
                                     </td>
                                 </tr>
                             @endforeach

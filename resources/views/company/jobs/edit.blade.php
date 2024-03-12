@@ -106,5 +106,74 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-5">
+            <h6 class="mb-0 text-uppercase">Candiades Applied In This Job</h6>
+            <hr>
+            <div class="card border-top border-0 border-4 border-primary">
+                <div class="card-body p-5">
+                    <div class="card-title d-flex align-items-center" style="justify-content: space-between;">
+                        <h5 class="mb-0 text-primary">Candidates</h5>
+                        <h5 class="mb-0 text-primary">Total Applied ({{ count($job->applications) }})</h5>
+                    </div>
+                    <hr>
+                    <div class="table-responsive">
+                        <table class="table align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Canidate Name</th>
+                                    <th>Applied At</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $applications = $job->applications;
+                                @endphp
+                                @if (count($applications) > 0)
+                                    @php
+                                        $counter = 1;
+                                    @endphp
+                                    @foreach ($applications as $application)
+                                        <tr>
+                                            <td>{{ $application->id }}</td>
+                                            <td>{{ $application->user->first_name }} {{ $application->user->last_name }}
+                                            </td>
+                                            <td>{{ date('d M, Y h:i A', strtotime($application->created_at)) }}</td>
+                                            <td>{{ ucwords($application->status) }}</td>
+                                            <td>
+                                                <div class="d-flex">
+                                                    <a href="{{ route('applications.edit', $application->id) }}"
+                                                        class="btn btn-sm btn-warning mx-2">View Details</a>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        @php
+                                            $counter++;
+                                        @endphp
+                                        @if ($counter > 10)
+                                            <tr>
+                                                <td colspan="5">
+                                                    <a href="{{ route('applications.index') }}?job_id={{ $job->id }}" class="btn btn-sm btn-primary">View More</a>
+                                                </td>
+                                            </tr>
+                                        @break
+                                    @endif
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="6">
+                                        <h6 class="text-center">No Data Found</h6>
+                                    </td>
+                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 @endsection
