@@ -23,7 +23,8 @@
                     <div class="card-title d-flex align-items-center">
                         <div>
                         </div>
-                        <h5 class="mb-0 text-primary">Candidate Profile Details</h5>
+                        <h5 class="mb-0 text-primary">Candidate Profile Details<span
+                                style="font-size: 14px;color:#000;font-weight:400;">(Visiable On Job Appply)</span></h5>
                     </div>
                     <hr>
                     @include('components.validatation')
@@ -72,7 +73,7 @@
 
                             @endphp
                             <img src="{{ $avatar }}" class="user-img" alt="user avatar"
-                                style="width: 160px; height:auto;">
+                                style="width: 160px; height:160px;object-fit:cover;">
                         </div>
                         <div class="col-md-12">
                             <label for="social_id" class="form-label">Social ID</label>
@@ -87,8 +88,7 @@
                         </div>
                         <div class="col-md-12">
                             <label for="phone_number" class="form-label">Phone Number*</label>
-                            <input type="text" name="phone_number" class="form-control"
-                                id="phone_number"
+                            <input type="text" name="phone_number" class="form-control" id="phone_number"
                                 value="{{ old('phone_number', $candidate->emergency_contact_number) }}"
                                 placeholder="Enter Phone Number">
                         </div>
@@ -138,43 +138,7 @@
                                 <a href="{{ asset($candidate->resume) }}" target="_blank">View CV / Resume</a>
                             @endif
                         </div>
-                        <div class="card-title d-flex align-items-center">
-                            <h5 class="mb-0 text-primary">Main Profile Details <span
-                                    style="font-size: 14px;color:#000;font-weight:400;">(Not Visiable On Job Appply)</span></h5>
-                        </div>
-                        <hr>
-                        <div class="col-md-6">
-                            <label for="first_name" class="form-label">First Name*</label>
-                            <input type="text" name="first_name" class="form-control" id="first_name"
-                                value="{{ old('first_name', $user->first_name) }}"
-                                placeholder="Enter Profile First Name">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="last_name" class="form-label">Last Name*</label>
-                            <input type="text" name="last_name" class="form-control" id="last_name"
-                                value="{{ old('last_name', $user->last_name) }}" placeholder="Enter Profile last Name">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="text" disabled class="form-control" id="email"
-                                value="{{ $user->email }}">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="phone" class="form-label">Phone*</label>
-                            <input type="text" name="phone" class="form-control" id="phone"
-                                value="{{ old('phone', $user->phone) }}" placeholder="Enter Phone">
-                        </div>
-                        <div class="col-md-12 mb-0">
-                            <label for="password" class="form-label"><strong>Chnage Password (Fill if need to change password)</strong></label>
-                        </div>
-                        <div class="col-md-6 mt-0">
-                            <label for="password" class="form-label">New Password</label>
-                            <input type="password" name="password" class="form-control" id="password" placeholder="Enter New Password">
-                        </div>
-                        <div class="col-md-6 mt-0">
-                            <label for="password_confirmation" class="form-label">Confirm Password</label>
-                            <input type="password" name="password_confirmation" class="form-control" id="password_confirmation" placeholder="Confirm Password">
-                        </div>
+
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary px-5">Submit</button>
                         </div>

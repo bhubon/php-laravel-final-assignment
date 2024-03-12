@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Candidate;
 
 use App\Models\Application;
-use App\Models\CandidateJobExperience;
-use App\Models\CandidateSkills;
 use Illuminate\Http\Request;
+use App\Models\CandidateSkills;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Models\CandidateJobExperience;
 use Illuminate\Support\Facades\Redirect;
 
 class DashboardController extends Controller
@@ -17,11 +18,11 @@ class DashboardController extends Controller
     {
         $user = auth()->user();
         $applications = Application::where(['user_id' => $user->id])->with(['job'])->latest()->limit(5)->get();
-        $success_applications = Application::where(['user_id' => $user->id,'status'=>'accepted'])->count();
+        $success_applications = Application::where(['user_id' => $user->id, 'status' => 'accepted'])->count();
         $experience = CandidateJobExperience::where(['candidate_id' => $user->candidate->id])->count();
         $skills = CandidateSkills::where(['candidate_id' => $user->candidate->id])->count();
         // dd($applied_jobs);
-        return view('candidate.dashboard',['applications'=>$applications,'success_applications'=>$success_applications,'experience'=>$experience,'skills'=>$skills]);
+        return view('candidate.dashboard', ['applications' => $applications, 'success_applications' => $success_applications, 'experience' => $experience, 'skills' => $skills]);
     }
 
     public function logout(Request $request)
@@ -68,10 +69,6 @@ class DashboardController extends Controller
             'behance_link' => 'nullable|url|max:255',
             'portfolio_link' => 'nullable|url|max:255',
             'resume' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
-            'first_name' => 'required|max:255',
-            'last_name' => 'required|max:255',
-            'phone' => 'required|max:255',
-            'password' => 'nullable|min:8|confirmed',
         ]);
 
         try {
@@ -136,14 +133,6 @@ class DashboardController extends Controller
                 'resume' => $pdf_url,
             ]);
 
-            $user->update([
-                'first_name' => $request->first_name,
-                'last_name' => $request->last_name,
-                'phone' => $request->phone,
-                'password' => bcrypt($request->password),
-            ]);
-
-
             Db::commit();
 
             return redirect()->back()->with('success', 'Profile Updated');
@@ -154,6 +143,70 @@ class DashboardController extends Controller
 
         }
 
+
+    }
+
+    public function account_settings()
+    {
+        $user = auth()->user();
+        $candidate = $user->candidate;
+        return view('candidate.pages.account-settings', ['user' => $user, 'candidate' => $candidate]);
+    }
+
+    public function account_settings_update(Request $request)
+    {
+        $request->validate([
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'phone' => 'required|max:255',
+            'avatar' => 'nullable',
+            'current_password' => 'required_with:password',
+            'password' => 'nullable|min:8|confirmed|required_with:current_password',
+        ]);
+        try {
+
+            $user = auth()->user();
+            DB::beginTransaction();
+            if (!empty($request->current_password)) {
+                if (!Hash::check($request->current_password, $user->password)) {
+                    return redirect()->back()->withErrors(['current_password' => 'The current password is incorrect'])->withInput();
+                } else {
+                    $user->password = Hash::make($request->password);
+                }
+            }
+
+            $img_url = $user->avatar;
+            if ($request->hasFile('avatar')) {
+                $img = $request->file('avatar');
+                $t = time();
+                $fileName = $img->getClientOriginalName();
+                $img_name = "{$t}-{$fileName}";
+                $img_url = "/uploads/{$img_name}";
+                $img->move(public_path("uploads"), $img_name);
+
+                $old_image = public_path($user->avatar);
+
+                if (!empty($user->avatar)) {
+                    if (file_exists($old_image)) {
+                        unlink($old_image);
+                    }
+                }
+
+                $user->avatar = $img_url;
+            }
+
+            $user->first_name = $request->first_name;
+            $user->last_name = $request->last_name;
+            $user->phone = $request->phone;
+            $user->save();
+
+            DB::commit();
+            return redirect()->back()->with('success', 'Successfully updated');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('warning', 'Something went wrong');
+        }
 
     }
 }

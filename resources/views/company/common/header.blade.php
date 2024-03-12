@@ -364,19 +364,17 @@
                         <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret"
                             href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             @php
-                                $user_id = auth()->user()->id;
-                                $candidate = \App\Models\Candidate::where('user_id', $user_id)
-                                    ->pluck('avatar')
-                                    ->first();
+                                $user = auth()->user();
 
-                                if($candidate){
-                                    $avatar = $candidate;
-                                }else{
+                                if (!empty($user->avatar)) {
+                                    $avatar = $user->avatar;
+                                } else {
                                     $avatar = asset('company/assets/images/avatars/avatar-2.png');
                                 }
 
                             @endphp
-                            <img src="{{ $avatar }}" class="user-img" alt="user avatar">
+                            <img src="{{ $avatar }}" class="user-img" alt="user avatar"
+                                style="object-fit: cover;">
                             <div class="user-info ps-3">
                                 <p class="user-name mb-0">{{ auth()->user()->first_name }}</p>
                             </div>

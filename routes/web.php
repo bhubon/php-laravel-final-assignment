@@ -58,8 +58,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(fu
     Route::get('/users/{id}', [DashboardController::class, 'user_details'])->name('admin.users.details');
     Route::get('/candidate/{id}', [DashboardController::class, 'candidate_details'])->name('admin.candidate.details');
     //Profile
-    Route::get('/profile', [DashboardController::class, 'profile'])->name('admin.profile');
-    Route::post('/profile', [DashboardController::class, 'profile_update'])->name('admin.profile.update');
+    Route::get('/account', [DashboardController::class, 'account'])->name('admin.account');
+    Route::post('/account', [DashboardController::class, 'account_update'])->name('admin.account.update');
     
     //company
     Route::resource('/companies', CompanyController::class);
@@ -88,6 +88,9 @@ Route::middleware(['auth', 'verified', 'role:company'])->prefix('company')->grou
     //profile
     Route::get('/profile', [ProfileController::class, 'profile'])->name('company.profile');
     Route::post('/profile', [ProfileController::class, 'profileUpdate'])->name('company.profileUpdate');
+    //account settings
+    Route::get('/account', [ProfileController::class, 'account_settings'])->name('company.account');
+    Route::post('/account', [ProfileController::class, 'account_settings_update'])->name('company.account.update');
 
     //Job
     Route::resource('jobs', JobController::class);
@@ -105,6 +108,8 @@ Route::middleware(['auth', 'verified', 'role:candidate'])->group(function () {
     Route::get('/user/applications', [App\Http\Controllers\Candidate\DashboardController::class, 'applications'])->name('user.applications');
     Route::get('/user/profile', [App\Http\Controllers\Candidate\DashboardController::class, 'profile'])->name('user.profile');
     Route::post('/user/profile', [App\Http\Controllers\Candidate\DashboardController::class, 'profileUpdate'])->name('user.profile.update');
+    Route::get('/user/account', [App\Http\Controllers\Candidate\DashboardController::class, 'account_settings'])->name('user.account');
+    Route::post('/user/account', [App\Http\Controllers\Candidate\DashboardController::class, 'account_settings_update'])->name('user.account.update');
 
     //job experiences
     Route::get('/user/job-experiences', [JobExperienceController::class, 'index'])->name('user.job.experiences');

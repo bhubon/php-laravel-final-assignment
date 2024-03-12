@@ -53,21 +53,21 @@ class DashboardController extends Controller
         return view('admin.users.candidate-details', ['user' => $user, 'candidate' => $candidate]);
     }
 
-    public function profile()
+    public function account()
     {
         $user = auth()->user();
         return view('admin.admin-profile', ['user' => $user]);
     }
 
-    public function profile_update(Request $request)
+    public function account_update(Request $request)
     {
         $request->validate([
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'phone' => 'required|max:255',
             'avatar' => 'nullable',
-            'current_password' => 'nullable',
-            'password' => 'nullable|min:8|confirmed',
+            'current_password' => 'required_with:password',
+            'password' => 'nullable|min:8|confirmed|required_with:current_password',
         ]);
 
         try {

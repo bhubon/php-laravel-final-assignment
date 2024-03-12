@@ -416,7 +416,7 @@
                                 $user = auth()->user();
                             @endphp
                             <img src="{{ !empty($user->avatar) ? $user->avatar : asset('admin/assets/images/pladeholder-avatar.jpg') }}"
-                                class="user-img" alt="user avatar">
+                                class="user-img" alt="user avatar" style="object-fit: cover;">
                             <div class="user-info ps-3">
 
                                 <p class="user-name mb-0">{{ $user->first_name }}</p>
@@ -424,7 +424,7 @@
                             </div>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="{{ route('admin.profile') }}"><i
+                            <li><a class="dropdown-item" href="{{ route('admin.account') }}"><i
                                         class="bx bx-user"></i><span>Profile</span></a>
                             </li>
                             <li><a class="dropdown-item" href="{{ route('admin.logout') }}"><i

@@ -21,7 +21,7 @@
                     @include('components.validatation')
                     @csrf
                     <div class="row">
-                        <div class="col-lg-8">
+                        <div class="col-lg-8 offset-2">
                             <div class="border border-3 p-4 rounded">
                                 <div class="mb-3">
                                     <label for="company_name" class="form-label">Company Name*</label>
@@ -63,14 +63,16 @@
                                     <label for="logo" class="form-label">Company Logo</label>
                                     <input type="file" name="logo" class="form-control" id="logo">
                                     @if (!empty($user->company->logo))
-                                        <img src="{{ $user->company->logo }}" alt="Logo" style="height: 120px; margin-top:10px;">
+                                        <img src="{{ $user->company->logo }}" alt="Logo"
+                                            style="height: 120px; margin-top:10px;">
                                     @endif
                                 </div>
                                 <div class="mb-3">
                                     <label for="cover_photo" class="form-label">Company Covever Photo</label>
                                     <input type="file" name="cover_photo" class="form-control" id="cover_photo">
                                     @if (!empty($user->company->cover_photo))
-                                        <img src="{{ $user->company->cover_photo }}" alt="Cover" style="height: 120px; margin-top:10px;">
+                                        <img src="{{ $user->company->cover_photo }}" alt="Cover"
+                                            style="height: 120px; margin-top:10px;">
                                     @endif
                                 </div>
                                 <div class="mb-3">
@@ -85,55 +87,13 @@
                                         placeholder="Enter company linkedin link"
                                         value="{{ $user->company->linkedin_link }}">
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="border border-3 p-4 rounded">
-                                <div class="row g-3">
-                                    <div class="col-md-12">
-                                        <label class="form-label"><b>Owner Details</b></label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="first_name" class="form-label">First Name*</label>
-                                        <input type="text" name="first_name" class="form-control" id="first_name"
-                                            placeholder="First Name" value="{{ $user->first_name }}">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="last_name" class="form-label">Last Name*</label>
-                                        <input type="text" name="last_name" class="form-control" id="last_name"
-                                            placeholder="Last Name" value="{{ $user->last_name }}">
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label for="email " class="form-label">Email</label>
-                                        <input type="email" disabled class="form-control" id="email "
-                                            placeholder="Email" value="{{ $user->email }}">
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label for="phone" class="form-label">Phone*</label>
-                                        <input type="text" name="phone" class="form-control" id="phone"
-                                            placeholder="Phone" value="{{ $user->phone }}">
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label class="form-label"><b>Update Password</b></label>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label for="password" class="form-label">New Password</label>
-                                        <input type="password" name="password" class="form-control"
-                                            id="password " placeholder="Enter New Password">
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label for="password_confirmation" class="form-label">Confirm Password</label>
-                                        <input type="password" name="password_confirmation" class="form-control"
-                                            id="password_confirmation " placeholder="Enter Confirm Password">
-                                    </div>
-
-                                    <div class="col-12">
-                                        <div class="d-grid">
-                                            <button type="submit" class="btn btn-primary">Update All Data</button>
-                                        </div>
+                                <div class="mt-3">
+                                    <div class="d-flex items-center">
+                                        <button type="submit" class="btn btn-primary">Update Company Profile</button>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div><!--end row-->
                 </form>

@@ -7,6 +7,7 @@ use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -28,24 +29,10 @@ class ProfileController extends Controller
                 'company_address' => 'required|string',
                 'company_phone' => 'required|string',
                 'company_email' => 'required|string',
-                'first_name' => 'required|string',
-                'last_name' => 'required|string',
-                'phone' => 'required|string',
-                'password' => 'required|confirmed',
             ]);
 
             $user_id = $request->user()->id;
             $user = User::findOrFail($user_id);
-
-            $user->first_name = $request->first_name;
-            $user->last_name = $request->last_name;
-            $user->phone = $request->phone;
-
-            if (isset($request->password)) {
-                $user->password = bcrypt($request->password);
-            }
-
-            $user->save();
 
             $company = Company::where('user_id', $user_id)->first();
 
@@ -106,6 +93,68 @@ class ProfileController extends Controller
 
 
 
+    }
+
+    public function account_settings()
+    {
+        $user = auth()->user();
+        return view('company.profile.account-settings', ['user' => $user]);
+    }
+
+    public function account_settings_update(Request $request)
+    {
+        $request->validate([
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'phone' => 'required|max:255',
+            'avatar' => 'nullable',
+            'current_password' => 'required_with:password',
+            'password' => 'nullable|min:8|confirmed|required_with:current_password',
+        ]);
+
+        try {
+            $user = auth()->user();
+
+            if (!empty($request->current_password)) {
+                if (!Hash::check($request->current_password, $user->password)) {
+                    return redirect()->back()->withErrors(['current_password' => 'The current password is incorrect'])->withInput();
+                } else {
+                    $user->password = Hash::make($request->password);
+                }
+            }
+
+            $img_url = $user->avatar;
+            if ($request->hasFile('avatar')) {
+                $img = $request->file('avatar');
+                $t = time();
+                $fileName = $img->getClientOriginalName();
+                $img_name = "{$t}-{$fileName}";
+                $img_url = "/uploads/{$img_name}";
+                $img->move(public_path("uploads"), $img_name);
+
+                $old_image = public_path($user->avatar);
+
+                if (!empty($candidate->avatar)) {
+                    if (file_exists($old_image)) {
+                        unlink($old_image);
+                    }
+                }
+            }
+
+            $user->first_name = $request->first_name;
+            $user->last_name = $request->last_name;
+            $user->phone = $request->phone;
+            $user->avatar = $img_url;
+
+
+
+            $user->save();
+
+            return redirect()->back()->with('success', 'Account Settings Updated');
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('warning', 'Something went wrong');
+        }
     }
 
 

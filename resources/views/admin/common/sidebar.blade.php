@@ -93,7 +93,7 @@
             </a>
         </li>
         <li>
-            <a href="{{ route('admin.profile') }}">
+            <a href="{{ route('admin.account') }}">
                 <div class="parent-icon"><i class="bx bx-category"></i>
                 </div>
                 <div class="menu-title">My Account</div>

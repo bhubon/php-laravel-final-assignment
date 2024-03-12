@@ -79,7 +79,14 @@
             <a href="{{ route('user.profile') }}">
                 <div class="parent-icon"><i class="bx bx-category"></i>
                 </div>
-                <div class="menu-title">Account</div>
+                <div class="menu-title">Profile</div>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('user.account') }}">
+                <div class="parent-icon"><i class="bx bx-category"></i>
+                </div>
+                <div class="menu-title">Account Setting</div>
             </a>
         </li>
         <li>

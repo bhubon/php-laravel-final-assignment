@@ -2,7 +2,7 @@
 <div class="sidebar-wrapper" data-simplebar="true">
     <div class="sidebar-header" style="justify-content: center;">
         <div class="d-flex justify-center">
-            <img src="{{ asset('uploads/admin-logo.png') }}" class="logo-icon" alt="logo icon" style="width: 120px;" >
+            <img src="{{ asset('uploads/admin-logo.png') }}" class="logo-icon" alt="logo icon" style="width: 120px;">
         </div>
     </div>
     <!--navigation-->
@@ -65,7 +65,14 @@
             <a href="{{ route('company.profile') }}">
                 <div class="parent-icon"><i class="bx bx-category"></i>
                 </div>
-                <div class="menu-title">Account</div>
+                <div class="menu-title">Company Profile</div>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('company.account') }}">
+                <div class="parent-icon"><i class="bx bx-category"></i>
+                </div>
+                <div class="menu-title">Account Settings</div>
             </a>
         </li>
         <li>
