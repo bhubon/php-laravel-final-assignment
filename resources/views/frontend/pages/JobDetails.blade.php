@@ -42,6 +42,36 @@
                                     </li>
                                     <li>${{ $job->salary }}</li>
                                 </ul>
+                                <style>
+                                    .skills {
+                                        margin: 0;
+                                        padding: 0;
+                                        width: 320px;
+                                    }
+
+                                    .skills li {
+                                        margin: 0 !important;
+                                    }
+
+                                    .skills li span {
+                                        background: #8B92DD;
+                                        color: #fff;
+                                        padding: 2px 8px;
+                                        border-radius: 10px;
+                                    }
+                                </style>
+                                <ul class="skills">
+                                    @php
+                                        $skills = explode(',', $job->skills);
+                                    @endphp
+                                    @if (count($skills) > 0)
+                                        @foreach ($skills as $skill)
+                                            @if (!empty($skill))
+                                                <li><span class="">{{ $skill }}</span></li>
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                </ul>
                             </div>
                         </div>
                         <div class="items-link items-link2 f-right">
@@ -62,7 +92,7 @@
                         <div class="post-details2  mb-50">
                             <!-- Small Section Tittle -->
                             <div class="small-section-tittle">
-                                <h4>Required Knowledge, Skills, and Abilities</h4>
+                                <h4>Required Knowledge and Abilities</h4>
                             </div>
                             <p>
                                 {{ $job->requirements }}
@@ -105,17 +135,19 @@
                                     @if ($application)
                                         <button type="button" class="btn">Allready Applied</button>
                                     @else
-                                    @include('components.validatation')
+                                        @include('components.validatation')
                                         <form action="{{ route('frontend.jobs.apply', $job->id) }}" method="POST">
                                             @csrf
                                             <div class="d-flex mb-3">
                                                 <div class="form-grpup mr-1">
                                                     <label for="current_salaries">Current Salary</label>
-                                                    <input type="text" id="current_salaries" name="current_salary" class="form-control" required placeholder="Current Salary">
+                                                    <input type="text" id="current_salaries" name="current_salary"
+                                                        class="form-control" required placeholder="Current Salary">
                                                 </div>
                                                 <div class="form-grpup ml-1">
                                                     <label for="expected_salaried">Expected Salary</label>
-                                                    <input type="text" id="expected_salaried" name="expected_salary" class="form-control" required placeholder="Current Salary">
+                                                    <input type="text" id="expected_salaried" name="expected_salary"
+                                                        class="form-control" required placeholder="Current Salary">
                                                 </div>
                                             </div>
                                             <button type="submit" class="btn">Apply Now</button>

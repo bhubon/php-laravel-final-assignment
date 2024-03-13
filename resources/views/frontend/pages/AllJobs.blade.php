@@ -44,10 +44,11 @@
                             </div>
                             <!-- Select job items start -->
                             <div class="select-job-items2">
-                                <select name="select">
+                                <select name="select" onchange="redirectToUrl(this)">
                                     <option value="">All Category</option>
                                     @foreach ($jobs_categories as $job_category)
-                                        <option value="{{ $job_category->id }}">{{ $job_category->name }}</option>
+                                        <option {{ request()->category == $job_category->id ? 'selected' : '' }}
+                                            value="{{ $job_category->id }}">{{ $job_category->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -57,20 +58,22 @@
                                 <div class="small-section-tittle2">
                                     <h4>Job Type</h4>
                                 </div>
-                                <label class="container">Full Time
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="container">Part Time
-                                    <input type="checkbox" checked="checked active">
+                                <label class="container">Office
+                                    <input type="checkbox"
+                                        {{ request()->job_type == 'office' ? 'checked="checked active"' : '' }}
+                                        value="office" name="job_type" onclick="jobType(this)">
                                     <span class="checkmark"></span>
                                 </label>
                                 <label class="container">Remote
-                                    <input type="checkbox">
+                                    <input type="checkbox"
+                                        {{ request()->job_type == 'remote' ? 'checked="checked active"' : '' }}
+                                        value="remote" name="job_type" onclick="jobType(this)">
                                     <span class="checkmark"></span>
                                 </label>
-                                <label class="container">Freelance
-                                    <input type="checkbox">
+                                <label class="container">Hybride
+                                    <input type="checkbox"
+                                        {{ request()->job_type == 'hybrid' ? 'checked="checked active"' : '' }}
+                                        value="hybrid" name="job_type" onclick="jobType(this)">
                                     <span class="checkmark"></span>
                                 </label>
                             </div>
@@ -78,102 +81,22 @@
                         </div>
                         <!-- single two -->
                         <div class="single-listing">
-                            <div class="small-section-tittle2">
-                                <h4>Job Location</h4>
-                            </div>
-                            <!-- Select job items start -->
-                            <div class="select-job-items2">
-                                <select name="select">
-                                    <option value="">Anywhere</option>
-                                    <option value="">Category 1</option>
-                                    <option value="">Category 2</option>
-                                    <option value="">Category 3</option>
-                                    <option value="">Category 4</option>
-                                </select>
-                            </div>
-                            <!--  Select job items End-->
-                            <!-- select-Categories start -->
-                            <div class="select-Categories pt-80 pb-50">
-                                <div class="small-section-tittle2">
-                                    <h4>Experience</h4>
-                                </div>
-                                <label class="container">1-2 Years
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="container">2-3 Years
-                                    <input type="checkbox" checked="checked active">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="container">3-6 Years
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="container">6-more..
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                            <!-- select-Categories End -->
-                        </div>
-                        <!-- single three -->
-                        <div class="single-listing">
                             <!-- select-Categories start -->
                             <div class="select-Categories pb-50">
                                 <div class="small-section-tittle2">
-                                    <h4>Posted Within</h4>
+                                    <h4>Job Nature</h4>
                                 </div>
-                                <label class="container">Any
-                                    <input type="checkbox">
+                                <label class="container">Full Time
+                                    <input type="checkbox"  {{ request()->job_nature == 'Full Time' ? 'checked="checked"' : '' }} value="Full Time" onchange="job_nature(this)">
                                     <span class="checkmark"></span>
                                 </label>
-                                <label class="container">Today
-                                    <input type="checkbox" checked="checked active">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="container">Last 2 days
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="container">Last 3 days
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="container">Last 5 days
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="container">Last 10 days
-                                    <input type="checkbox">
+                                <label class="container">Part Time
+                                    <input type="checkbox"  {{ request()->job_nature == 'Part Time' ? 'checked="checked"' : '' }} value="Part Time"
+                                        onchange="job_nature(this)">
                                     <span class="checkmark"></span>
                                 </label>
                             </div>
                             <!-- select-Categories End -->
-                        </div>
-                        <div class="single-listing">
-                            <!-- Range Slider Start -->
-                            <aside class="left_widgets p_filter_widgets price_rangs_aside sidebar_box_shadow">
-                                <div class="small-section-tittle2">
-                                    <h4>Filter Jobs</h4>
-                                </div>
-                                <div class="widgets_inner">
-                                    <div class="range_item">
-                                        <!-- <div id="slider-range"></div> -->
-                                        <input type="text" class="js-range-slider" value="" />
-                                        <div class="d-flex align-items-center">
-                                            <div class="price_text">
-                                                <p>Price :</p>
-                                            </div>
-                                            <div class="price_value d-flex justify-content-center">
-                                                <input type="text" class="js-input-from" id="amount" readonly />
-                                                <span>to</span>
-                                                <input type="text" class="js-input-to" id="amount" readonly />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </aside>
-                            <!-- Range Slider End -->
                         </div>
                     </div>
                     <!-- Job Category Listing End -->
@@ -199,24 +122,57 @@
                                     <div class="single-job-items mb-30">
                                         <div class="job-items">
                                             <div class="company-img">
-                                                <a href="{{ route('frontend.jobs.details',$job->id) }}"><img
-                                                        src="{{ !empty($job->company->logo) ?  asset($job->company->logo) : asset('uploads/placeholder.jpg') }}"
+                                                <a href="{{ route('frontend.jobs.details', $job->id) }}"><img
+                                                        src="{{ !empty($job->company->logo) ? asset($job->company->logo) : asset('uploads/placeholder.jpg') }}"
                                                         alt=""
                                                         style="height: 90px; width:90px; object-fit:cover;border:1px solid #ddd;"></a>
                                             </div>
                                             <div class="job-tittle job-tittle2">
-                                                <a href="{{ route('frontend.jobs.details',$job->id) }}">
+                                                <a href="{{ route('frontend.jobs.details', $job->id) }}">
                                                     <h4>{{ $job->title }}</h4>
                                                 </a>
                                                 <ul>
                                                     <li>{{ $job->company->company_name }}</li>
-                                                    <li><i class="fas fa-map-marker-alt"></i>{{ !empty($job->location) ? $job->location : $job->company->company_address }}</li>
+                                                    <li><i
+                                                            class="fas fa-map-marker-alt"></i>{{ !empty($job->location) ? $job->location : $job->company->company_address }}
+                                                    </li>
                                                     <li>${{ $job->salary }}</li>
+                                                </ul>
+                                                <style>
+                                                    .skills {
+                                                        margin: 0;
+                                                        padding: 0;
+                                                        width: 490px;
+                                                    }
+
+                                                    .skills li {
+                                                        margin: 0 !important;
+                                                    }
+
+                                                    .skills li span {
+                                                        background: #8B92DD;
+                                                        color: #fff;
+                                                        padding: 2px 8px;
+                                                        border-radius: 10px;
+                                                    }
+                                                </style>
+                                                <ul class="skills">
+                                                    @php
+                                                        $skills = explode(',', $job->skills);
+                                                    @endphp
+                                                    @if (count($skills) > 0)
+                                                        @foreach ($skills as $skill)
+                                                            @if (!empty($skill))
+                                                                <li><span class="">{{ $skill }}</span></li>
+                                                            @endif
+                                                        @endforeach
+                                                    @endif
                                                 </ul>
                                             </div>
                                         </div>
                                         <div class="items-link items-link2 f-right">
-                                            <a href="{{ route('frontend.jobs.details',$job->id) }}">{{ ucwords($job->job_type) }}</a>
+                                            <a
+                                                href="{{ route('frontend.jobs.details', $job->id) }}">{{ ucwords($job->job_type) }}</a>
                                             <span>{{ $job->created_at->diffForHumans() }}</span>
                                         </div>
                                     </div>
@@ -244,4 +200,62 @@
         </div>
     </div>
     <!--Pagination End  -->
+
+    <script>
+        function redirectToUrl(selectElement) {
+            const selectedValue = selectElement.value;
+            const urlParams = new URLSearchParams(window.location.search);
+
+            // Set or delete the 'category' parameter based on the selected value
+            if (selectedValue) {
+                urlParams.set('category', selectedValue);
+            } else {
+                urlParams.delete('category');
+            }
+
+            // Construct the new URL with updated parameters
+            const newUrl = window.location.pathname + '?' + urlParams.toString();
+
+            // Redirect to the new URL
+            window.location.href = newUrl;
+        }
+
+
+        function jobType(checkbox) {
+            const checkedValue = checkbox.checked ? checkbox.value : '';
+            const urlParams = new URLSearchParams(window.location.search);
+
+            // Set or delete the 'job_type' parameter based on the checked value
+            if (checkedValue) {
+                urlParams.set('job_type', checkedValue);
+            } else {
+                urlParams.delete('job_type');
+            }
+
+            // Construct the new URL with updated parameters
+            const newUrl = window.location.pathname + '?' + urlParams.toString();
+
+            // Redirect to the new URL
+            window.location.href = newUrl;
+        }
+
+
+        function job_nature(checkbox) {
+            const checkedValue = checkbox.checked ? checkbox.value : '';
+            const urlParams = new URLSearchParams(window.location.search);
+
+            // Set or delete the 'job_type' parameter based on the checked value
+            if (checkedValue) {
+                urlParams.set('job_nature', checkedValue);
+            } else {
+                urlParams.delete('job_nature');
+            }
+
+            // Construct the new URL with updated parameters
+            const newUrl = window.location.pathname + '?' + urlParams.toString();
+
+            // Redirect to the new URL
+            window.location.href = newUrl;
+        }
+    </script>
 @endsection

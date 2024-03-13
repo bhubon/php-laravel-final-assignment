@@ -39,8 +39,12 @@
                             <textarea type="text" name="description" placeholder="Enter Description" class="form-control" id="description">{{ old('description') }}</textarea>
                         </div>
                         <div class="col-md-12">
-                            <label for="requirements" class="form-label">Required Knowledge, Skills, and Abilities*</label>
+                            <label for="requirements" class="form-label">Required Knowledge & Abilities*</label>
                             <textarea type="text" name="requirements" placeholder="Enter Requirements" class="form-control" id="requirements">{{ old('requirements') }}</textarea>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="skills" class="form-label">Required Skills* (Comma seperated value)</label>
+                            <textarea type="text" name="skills" placeholder="Enter Skills" class="form-control" id="skills">{{ old('skills') }}</textarea>
                         </div>
                         <div class="col-md-12">
                             <label for="location" class="form-label">Office Location*</label>

@@ -44,6 +44,10 @@
                             <textarea type="text" name="requirements" placeholder="Enter Requirements" class="form-control" id="requirements">{{ old('requirements', $job->requirements) }}</textarea>
                         </div>
                         <div class="col-md-12">
+                            <label for="skills" class="form-label">Required Skills* (Comma seperated value)</label>
+                            <textarea type="text" name="skills" placeholder="Enter Skills" class="form-control" id="skills">{{ old('skills', $job->skills) }}</textarea>
+                        </div>
+                        <div class="col-md-12">
                             <label for="location" class="form-label">Office Location*</label>
                             <input type="text" name="location" placeholder="Enter Office Location" class="form-control"
                                 id="location" value="{{ old('location', $job->location) }}">

@@ -11,6 +11,6 @@ class Category extends Model
     protected $fillable = ['name'];
 
     public function blogs(){
-        
+        return $this->hasMany(Blog::class)->where('status', 'active');
     }
 }

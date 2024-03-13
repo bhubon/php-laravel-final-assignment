@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Models\Category;
 use App\Models\Job;
+use App\Models\Blog;
 use App\Models\User;
 use App\Models\Company;
 use App\Mail\verifyMail;
@@ -20,7 +22,16 @@ class HomeController extends Controller
     {
         $jobs_categories = JobCategory::with('jobs')->latest()->limit(8)->get();
         $jobs = Job::where('status', 'active')->with(['company'])->latest()->limit(5)->get();
-        return view('frontend.pages.HomePage', ['jobs' => $jobs, 'jobs_categories' => $jobs_categories]);
+
+        $blogs = Blog::where('status', 'active')->with(['category'])->latest()->limit(2)->get();
+
+        $top_companies = Company::withCount('jobs')
+            ->whereHas('jobs')
+            ->orderByDesc('jobs_count')
+            ->take(5)
+            ->get();
+
+        return view('frontend.pages.HomePage', ['jobs' => $jobs, 'jobs_categories' => $jobs_categories, 'blogs' => $blogs, 'top_companies' => $top_companies]);
     }
 
     public function frontendLogin()
@@ -44,7 +55,7 @@ class HomeController extends Controller
         ]);
 
         try {
-
+            DB::beginTransaction();
             $user = User::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
@@ -54,6 +65,7 @@ class HomeController extends Controller
                 'role' => 'candidate',
                 'status' => 'active',
             ]);
+            DB::commit();
 
             if ($user) {
                 $credentials = $request->only('email', 'password');
@@ -62,11 +74,16 @@ class HomeController extends Controller
 
                 return redirect()->route('user.dashboard')->with('success', 'Successfully Registered!');
             } else {
+
                 return redirect()->back()->with('warning', 'Something went wrong');
             }
 
 
+
+
         } catch (\Exception $e) {
+            DB::commit();
+            return $e->getMessage();
             return redirect()->back()->with('warning', 'Something went wrong');
         }
     }
@@ -103,21 +120,24 @@ class HomeController extends Controller
             ]);
 
             Company::create([
+                'user_id' => $user->id,
                 'company_name' => $request->company_name,
                 'company_address' => $request->company_address,
-                'company_type' => $request->company_type,
+                'industry' => $request->company_type,
             ]);
 
             $credentials = $request->only('email', 'password');
 
+            DB::commit();
+
             Auth::attempt($credentials);
 
-            DB::commit();
 
             return redirect()->route('user.dashboard')->with('success', 'Successfully Registered!');
 
 
         } catch (\Exception $e) {
+            // return $e->getMessage();
             DB::rollBack();
             return redirect()->back()->with('warning', 'Something went wrong');
         }
@@ -149,6 +169,12 @@ class HomeController extends Controller
             $category = isset($request->category) && !empty($request->category) ? $request->category : '';
 
             $jobs->where(['category_id' => $category]);
+        }
+
+        if (isset($request->job_nature) && !empty($request->job_nature)) {
+            $job_nature = isset($request->job_nature) && !empty($request->job_nature) ? $request->job_nature : '';
+
+            $jobs->where(['job_nature' => $job_nature]);
         }
 
         $filteredJobs = $jobs->where(['status' => 'active'])->latest()->with(['company'])->paginate(10);
@@ -220,10 +246,37 @@ class HomeController extends Controller
 
             return redirect()->back()->with('success', 'Successfully Applied');
         } catch (\Exception $e) {
-            return $e->getMessage();
             return redirect()->back()->with('warning', 'Something went wrong');
         }
 
 
+    }
+
+    public function blogs(Request $request)
+    {
+        $blogs = Blog::query();
+
+        if (isset($request->s) && !empty($request->s)) {
+            $blogs->where('title', 'LIKE', '%' . $request->s . '%');
+        }
+
+        if (isset($request->category) && !empty($request->category)) {
+            $blogs->where('category_id', $request->category);
+        }
+
+        $blogs = $blogs->where('status', 'active')->with('category')->latest()->paginate(10);
+        $categories = Category::with('blogs')->latest()->get();
+        return view('frontend.pages.blog', ['blogs' => $blogs, 'categories' => $categories]);
+    }
+
+    public function blog_details(string $slug)
+    {
+        $blog = Blog::where(['slug' => $slug, 'status' => 'active'])->first();
+        if ($blog) {
+            $categories = Category::with('blogs')->latest()->get();
+            return view('frontend.pages.blog_details', ['blog' => $blog, 'categories' => $categories]);
+        } else {
+            return redirect()->back()->with('warning', 'No Blog Found');
+        }
     }
 }

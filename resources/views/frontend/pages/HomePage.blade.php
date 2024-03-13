@@ -87,13 +87,18 @@
         data-background="{{ asset('frontend/') }}/assets/img/gallery/cv_bg.jpg">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-xl-10">
-                    <div class="cv-caption text-center">
-                        <p class="pera1">FEATURED TOURS Packages</p>
-                        <p class="pera2"> Make a Difference with Your Online Resume!</p>
-                        <a href="#" class="border-btn2 border-btn4">Upload your cv</a>
-                    </div>
+                <div class="col-md-12 mb-4">
+                    <h2 class="text-center text-light">Top Companies</h2>
                 </div>
+                @foreach ($top_companies as $company)
+                    <div class="col-md-2 text-center border border-1 border-light bg-light pt-4 rounded mx-3">
+                        @if (!empty($company->logo))
+                            <img src="{{ !empty($company->logo) ? $company->logo : '' }}" alt="Company Logo" width="120px">
+                        @endif
+                        <h6 class="text-center text-dark">{{ $company->company_name }}</h6>
+                    </div>
+                @endforeach
+
             </div>
         </div>
     </div>
@@ -130,6 +135,36 @@
                                                     class="fas fa-map-marker-alt"></i>{{ !empty($job->location) ? $job->location : $job->company->location }}
                                             </li>
                                             <li>${{ $job->salary }}</li>
+                                        </ul>
+                                        <style>
+                                            .skills {
+                                                margin: 0;
+                                                padding: 0;
+                                                width: 490px;
+                                            }
+
+                                            .skills li {
+                                                margin: 0 !important;
+                                            }
+
+                                            .skills li span {
+                                                background: #8B92DD;
+                                                color: #fff;
+                                                padding: 2px 8px;
+                                                border-radius: 10px;
+                                            }
+                                        </style>
+                                        <ul class="skills">
+                                            @php
+                                                $skills = explode(',', $job->skills);
+                                            @endphp
+                                            @if (count($skills) > 0)
+                                                @foreach ($skills as $skill)
+                                                    @if (!empty($skill))
+                                                        <li><span class="">{{ $skill }}</span></li>
+                                                    @endif
+                                                @endforeach
+                                            @endif
                                         </ul>
                                     </div>
                                 </div>
@@ -201,7 +236,7 @@
     </div>
     <!-- How  Apply Process End-->
     <!-- Testimonial Start -->
-    <div class="testimonial-area testimonial-padding">
+    <div class="testimonial-area">
         <div class="container">
             <!-- Testimonial contents -->
             <div class="row d-flex justify-content-center">
@@ -273,40 +308,6 @@
         </div>
     </div>
     <!-- Testimonial End -->
-    <!-- Support Company Start-->
-    <div class="support-company-area support-padding fix">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-xl-6 col-lg-6">
-                    <div class="right-caption">
-                        <!-- Section Tittle -->
-                        <div class="section-tittle section-tittle2">
-                            <span>What we are doing</span>
-                            <h2>24k Talented people are getting Jobs</h2>
-                        </div>
-                        <div class="support-caption">
-                            <p class="pera-top">Mollit anim laborum duis au dolor in voluptate velit ess cillum dolore eu
-                                lore dsu quality mollit anim laborumuis au dolor in voluptate velit cillum.</p>
-                            <p>Mollit anim laborum.Duis aute irufg dhjkolohr in re voluptate velit esscillumlore eu quife
-                                nrulla parihatur. Excghcepteur signjnt occa cupidatat non inulpadeserunt mollit aboru.
-                                temnthp incididbnt ut labore mollit anim laborum suis aute.</p>
-                            <a href="about.html" class="btn post-btn">Post a job</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-6 col-lg-6">
-                    <div class="support-location-img">
-                        <img src="{{ asset('frontend/') }}/assets/img/service/support-img.jpg" alt="">
-                        <div class="support-img-cap text-center">
-                            <p>Since</p>
-                            <span>1994</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Support Company End-->
     <!-- Blog Area Start -->
     <div class="home-blog-area blog-h-padding">
         <div class="container">
@@ -320,44 +321,41 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-6">
-                    <div class="home-blog-single mb-30">
-                        <div class="blog-img-cap">
-                            <div class="blog-img">
-                                <img src="{{ asset('frontend/') }}/assets/img/blog/home-blog1.jpg" alt="">
-                                <!-- Blog date -->
-                                <div class="blog-date text-center">
-                                    <span>24</span>
-                                    <p>Now</p>
+                @if (count($blogs) > 0)
+                    @foreach ($blogs as $blog)
+                        <div class="col-xl-6 col-lg-6 col-md-6">
+                            <div class="home-blog-single mb-30">
+                                <div class="blog-img-cap">
+                                    <div class="blog-img">
+                                        @if (!empty($blog->thumbnail))
+                                            <img src="{{ $blog->thumbnail }}" alt="{{ $blog->title }}"
+                                                style="height:400px; width:570px; object-fit:cover;">
+                                        @else
+                                            <img src="{{ asset('admin/assets/images/placeholder.jpg') }}"
+                                                alt="{{ $blog->title }}"
+                                                style="height:400px; width:570px; object-fit:cover;">
+                                        @endif
+                                        <!-- Blog date -->
+                                        <div class="blog-date text-center">
+                                            <span>{{ date('d', strtotime($blog->created_at)) }}</span>
+                                            <p>{{ date('M', strtotime($blog->created_at)) }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="blog-cap">
+                                        <p>| {{ $blog->category->name }}</p>
+                                        <h3><a
+                                                href="{{ route('frontend.blogs.details', $blog->slug) }}">{{ $blog->title }}</a>
+                                        </h3>
+                                        <a href="{{ route('frontend.blogs.details', $blog->slug) }}"
+                                            class="more-btn">Read more »</a>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="blog-cap">
-                                <p>| Properties</p>
-                                <h3><a href="single-blog.html">Footprints in Time is perfect House in Kurashiki</a></h3>
-                                <a href="#" class="more-btn">Read more »</a>
-                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-6">
-                    <div class="home-blog-single mb-30">
-                        <div class="blog-img-cap">
-                            <div class="blog-img">
-                                <img src="{{ asset('frontend/') }}/assets/img/blog/home-blog2.jpg" alt="">
-                                <!-- Blog date -->
-                                <div class="blog-date text-center">
-                                    <span>24</span>
-                                    <p>Now</p>
-                                </div>
-                            </div>
-                            <div class="blog-cap">
-                                <p>| Properties</p>
-                                <h3><a href="single-blog.html">Footprints in Time is perfect House in Kurashiki</a></h3>
-                                <a href="#" class="more-btn">Read more »</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    @endforeach
+                @else
+                    <h4 class="text-center">No Blogs Found</h4>
+                @endif
             </div>
         </div>
     </div>

@@ -13,6 +13,7 @@ class Job extends Model
         'title',
         'description',
         'requirements',
+        'skills',
         'location',
         'salary',
         'job_type',

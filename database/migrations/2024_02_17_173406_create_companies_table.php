@@ -16,12 +16,12 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('company_name');
             $table->string('company_address');
-            $table->string('company_phone');
-            $table->string('company_email');
-            $table->string('company_website');
-            $table->string('industry');
-            $table->string('company_size');
-            $table->string('logo');
+            $table->string('company_phone')->nullable();
+            $table->string('company_email')->nullable();
+            $table->string('company_website')->nullable();
+            $table->string('industry')->nullable();
+            $table->string('company_size')->nullable();
+            $table->string('logo')->nullable();
             $table->string('cover_photo')->nullable();
             $table->string('facebook_links')->nullable();
             $table->string('linkedin_link')->nullable();

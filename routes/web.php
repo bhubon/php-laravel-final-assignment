@@ -41,6 +41,9 @@ Route::get('/jobs', [HomeController::class, 'allJobs'])->name('frontend.jobs');
 Route::get('/jobs/{id}', [HomeController::class, 'jodDetails'])->name('frontend.jobs.details');
 Route::post('/jobs/apply/{id}', [HomeController::class, 'applyJob'])->name('frontend.jobs.apply');
 
+Route::get('/blogs', [HomeController::class, 'blogs'])->name('frontend.blogs');
+Route::get('/blogs/{slug}', [HomeController::class, 'blog_details'])->name('frontend.blogs.details');
+
 
 
 //Admin Logins
@@ -50,7 +53,7 @@ Route::get('/admin/login', function () {
 //Admin
 Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(function () {
 
-    
+
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/logout', [DashboardController::class, 'adminLogout'])->name('admin.logout');
@@ -60,7 +63,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(fu
     //Profile
     Route::get('/account', [DashboardController::class, 'account'])->name('admin.account');
     Route::post('/account', [DashboardController::class, 'account_update'])->name('admin.account.update');
-    
+
     //company
     Route::resource('/companies', CompanyController::class);
     //job category
