@@ -14,6 +14,7 @@
                 <div class="menu-title">Dashboard</div>
             </a>
         </li>
+        @can('view companies')
         <li>
             <a href="{{ route('companies.index') }}">
                 <div class="parent-icon"><i class="bx bx-category"></i>
@@ -21,6 +22,7 @@
                 <div class="menu-title">Companies</div>
             </a>
         </li>
+        @endcan
         <li class="menu-label">Job Management</li>
         <li>
             <a href="{{ route('admin.jobs.index') }}">

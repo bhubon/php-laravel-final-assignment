@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\JobCategoryController;
 use App\Http\Controllers\Admin\PageController;
+use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Candidate\CandidateEducationController;
 use App\Http\Controllers\Candidate\CandidateskillsController;
 use App\Http\Controllers\Candidate\JobExperience;

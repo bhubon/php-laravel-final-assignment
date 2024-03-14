@@ -65,13 +65,50 @@
                                 class="form-control" id="password_confirmation" value="{{ old('confirm_password') }}">
                         </div>
                         <div class="col-md-12">
-                            <label for="employee_type" class="form-label">Employee Type*</label>
+                            <label for="employee_type" class="form-label">Employee Type (Role)*</label>
                             <select name="employee_type" id="employee_type" class="form-control">
                                 <option {{ $employee->employee_type == 'editor' ? 'selected' : '' }} value="editor">Editor
                                 </option>
                                 <option {{ $employee->employee_type == 'manager' ? 'selected' : '' }} value="manager">
                                     Manager</option>
                             </select>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="permissions" class="form-label">Permissions</label>
+                            <style>
+                                .permissions ul {
+                                    margin: 0;
+                                    padding: 0;
+                                    list-style: none;
+                                    display: flex;
+                                    flex-wrap: wrap;
+                                }
+
+                                .permissions ul li {
+                                    margin: 0 8px 17px;
+                                    width: 22%;
+                                }
+                            </style>
+                            <div class="permissions">
+                                <ul>
+                                    @if (count($permissions) > 0)
+                                        @php
+                                            $user_permissions = $employee->getAllPermissions();
+                                        @endphp
+                                        @foreach ($permissions as $permission)
+                                            <li><input name="permissions[]" id="permission-{{ $permission->id }}"
+                                                    {{ in_array($permission->name, $user_permissions->pluck('name')->toArray()) ? 'checked' : '' }}
+                                                    type="checkbox" value="{{ $permission->name }}">
+                                                <label
+                                                    for="permission-{{ $permission->id }}">{{ $permission->name }}</label>
+                                            </li>
+                                        @endforeach
+                                    @else
+                                            <h5>Run "php artisan db:seed --class=PermissionSeeder" to seed roles and permissions
+                                            </h5>
+                                    @endif
+                                </ul>
+                            </div>
                         </div>
 
 

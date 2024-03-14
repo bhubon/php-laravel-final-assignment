@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
+use Spatie\Permission\Models\Permission;
 
 class EmployeeController extends Controller
 {
@@ -53,6 +54,8 @@ class EmployeeController extends Controller
             $user->employee_type = $request->input('employee_type');
             $user->save();
 
+            $user->assignRole($request->input('employee_type'));
+
             return redirect()->route('employee.index')->with('success', 'Employee added successfully.');
 
         } catch (\Exception $e) {
@@ -67,7 +70,8 @@ class EmployeeController extends Controller
     public function edit(string $id)
     {
         $employee = User::findOrFail($id);
-        return view('admin.employee.edit', ['employee' => $employee]);
+        $permissions = Permission::latest()->get();
+        return view('admin.employee.edit', ['employee' => $employee, 'permissions' => $permissions]);
     }
 
     /**
@@ -88,6 +92,7 @@ class EmployeeController extends Controller
         ]);
 
         try {
+
             $user = User::findOrFail($id);
             $user->first_name = $request->input('first_name');
             $user->last_name = $request->input('last_name');
@@ -102,7 +107,22 @@ class EmployeeController extends Controller
                 $user->password = bcrypt($request->input('password'));
             }
 
+
+
+            if ($user->hasRole('editor') && $request->input('employee_type') === $user->employee_type) {
+                $permissions = $request->input('permissions', []);
+                $user->syncPermissions($permissions);
+
+                $allPermissions = Permission::all()->pluck('name')->toArray();
+                $permissionsToRevoke = array_diff($allPermissions, $permissions);
+                $user->revokePermissionTo($permissionsToRevoke);
+            } else {
+                $user->syncRoles([$request->input('employee_type')]);
+            }
+
+
             $user->save();
+
 
             return redirect()->back()->with('success', 'Employee Updated.');
 
@@ -116,6 +136,15 @@ class EmployeeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $user = User::findOrFail($id);
+
+            $user->delete();
+
+            return redirect()->back()->with('success', 'Employee Deleted.');
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to Delete Employee. Please try again.');
+        }
     }
 }

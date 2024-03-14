@@ -48,13 +48,17 @@
                                     <td>
                                         <div class="d-flex">
                                             <a href="{{ route('employee.edit', $employee->id) }}"
-                                                class="btn btn-sm btn-warning mx-2">Edit</a>
-                                            <form action="{{ route('employee.destroy', $employee->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" onclick="return confirm('Are you sure to delete?')"
-                                                    class="btn btn-sm btn-danger">Delete</button>
-                                            </form>
+                                                class="btn btn-sm btn-warning mx-2">Edit Employee / Permission</a>
+                                            @if (auth()->user()->id != $employee->id)
+                                                <form action="{{ route('employee.destroy', $employee->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        onclick="return confirm('Are you sure to delete?')"
+                                                        class="btn btn-sm btn-danger">Delete</button>
+                                                </form>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>
