@@ -115,8 +115,6 @@ Route::middleware(['auth', 'verified', 'role:company'])->prefix('company')->grou
     //Job
     Route::resource('jobs', JobController::class);
     //Blog
-    Route::resource('blogs', CompanyBlogController::class);
-    //Blog
     Route::resource('applications', CompanyApplicationController::class);
 });
 
