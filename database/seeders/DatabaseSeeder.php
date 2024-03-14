@@ -46,5 +46,13 @@ class DatabaseSeeder extends Seeder
                 'status' => 'active',
             ],
         );
+
+        //Pages
+        \App\Models\Page::created([
+            'title' => 'About',
+        ]);
+        \App\Models\Page::created([
+            'title' => 'Contact',
+        ]);
     }
 }

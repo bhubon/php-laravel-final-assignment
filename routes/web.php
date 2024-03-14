@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\BlogCategoryController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\JobCategoryController;
+use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Candidate\CandidateEducationController;
 use App\Http\Controllers\Candidate\CandidateskillsController;
 use App\Http\Controllers\Candidate\JobExperience;
@@ -32,7 +33,6 @@ use Illuminate\Support\Facades\Route;
 
 //frontend
 Route::get('/', [HomeController::class, 'homePage'])->name('frontend.home');
-Route::get('/flogin', [HomeController::class, 'frontendLogin'])->name('frontend.login');
 Route::get('/company-registration', [HomeController::class, 'companyRegistration'])->name('frontend.registration.company');
 Route::post('/company-registration', [HomeController::class, 'frontendCompanyRegisterSubmit'])->name('frontend.company.registrationSubmit');
 Route::post('/registration', [HomeController::class, 'frontendRegisterSubmit'])->name('frontend.registrationSubmit');
@@ -44,11 +44,26 @@ Route::post('/jobs/apply/{id}', [HomeController::class, 'applyJob'])->name('fron
 Route::get('/blogs', [HomeController::class, 'blogs'])->name('frontend.blogs');
 Route::get('/blogs/{slug}', [HomeController::class, 'blog_details'])->name('frontend.blogs.details');
 
+Route::get('/about-us', [HomeController::class, 'about_us'])->name('frontend.about');
+Route::get('/contact-us', [HomeController::class, 'contact_us'])->name('frontend.contact');
+Route::post('/contact-us', [HomeController::class, 'send_mail'])->name('frontend.send_mail');
+
 
 
 //Admin Logins
 Route::get('/admin/login', function () {
-    return view('admin.auth.login');
+    if (!auth()->check()) {
+        return view('admin.auth.login');
+    } else {
+        if (auth()->user()->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        } elseif (auth()->user()->role === 'company') {
+            return redirect()->route('company.dashboard');
+        } else {
+
+            return redirect()->route('user.dashboard');
+        }
+    }
 });
 //Admin
 Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(function () {
@@ -77,6 +92,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(fu
     Route::resource('/blog-category', BlogCategoryController::class);
     //blog category
     Route::resource('/admin-blogs', AdminBlogController::class);
+    //Pages
+    Route::resource('/pages', PageController::class);
 });
 
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Models\Category;
 use App\Models\Job;
 use App\Models\Blog;
+use App\Models\Page;
 use App\Models\User;
 use App\Models\Company;
 use App\Mail\verifyMail;
@@ -15,6 +16,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Mail;
+use App\Mail\ContactMail;
 
 class HomeController extends Controller
 {
@@ -83,7 +86,6 @@ class HomeController extends Controller
 
         } catch (\Exception $e) {
             DB::commit();
-            return $e->getMessage();
             return redirect()->back()->with('warning', 'Something went wrong');
         }
     }
@@ -277,6 +279,42 @@ class HomeController extends Controller
             return view('frontend.pages.blog_details', ['blog' => $blog, 'categories' => $categories]);
         } else {
             return redirect()->back()->with('warning', 'No Blog Found');
+        }
+    }
+
+    public function about_us()
+    {
+        $data = Page::findOrFail(1);
+        return view('frontend.pages.About', ['data' => $data]);
+    }
+    public function contact_us()
+    {
+        $data = Page::findOrFail(2);
+        return view('frontend.pages.Contact', ['data' => $data]);
+    }
+
+    public function send_mail(Request $request)
+    {
+        $request->validate([
+            'message' => 'required|string',
+            'name' => 'required|string',
+            'subject' => 'required|string',
+            'email' => 'required|string',
+        ]);
+
+        try {
+            $data = [
+                'message' => $request->message,
+                'name' => $request->name,
+                'subject' => $request->subject,
+                'email' => $request->email,
+            ];
+
+            Mail::to('admin@jobpulse.com')->send(new ContactMail($data));
+
+            return redirect()->back()->with('success', 'Submitted Successfully! Thank You');
+        } catch (\Exception $exception) {
+            return redirect()->back()->with('warning', 'Something went wrong');
         }
     }
 }

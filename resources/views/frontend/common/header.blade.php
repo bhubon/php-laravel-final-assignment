@@ -59,9 +59,9 @@
                                         <ul id="navigation">
                                             <li><a href="/">Home</a></li>
                                             <li><a href="{{ route('frontend.jobs') }}">Find a Jobs </a></li>
-                                            <li><a href="about.html">About</a></li>
                                             <li><a href="{{ route('frontend.blogs') }}">Blogs</a></li>
-                                            <li><a href="contact.html">Contact</a></li>
+                                            <li><a href="{{ route('frontend.about') }}">About</a></li>
+                                            <li><a href="{{ route('frontend.contact') }}">Contact</a></li>
                                         </ul>
                                     </nav>
                                 </div>

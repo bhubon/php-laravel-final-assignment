@@ -84,6 +84,14 @@
                 </li>
             </ul>
         </li>
+        <li class="menu-label">Page Management</li>
+        <li>
+            <a href="{{ route('pages.index') }}">
+                <div class="parent-icon"><i class="bx bx-category"></i>
+                </div>
+                <div class="menu-title">Pages</div>
+            </a>
+        </li>
         <li class="menu-label">Others</li>
         <li>
             <a href="{{ route('admin.users') }}">

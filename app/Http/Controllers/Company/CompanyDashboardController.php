@@ -32,6 +32,18 @@ class CompanyDashboardController extends Controller
 
     public function login()
     {
-        return view('company.auth.login');
+        if (!auth()->check()) {
+            return view('company.auth.login');
+        } else {
+            if (auth()->user()->role === 'admin') {
+                return redirect()->route('admin.dashboard');
+            } elseif (auth()->user()->role === 'company') {
+                return redirect()->route('company.dashboard');
+            } else {
+
+                return redirect()->route('user.dashboard');
+            }
+        }
+
     }
 }

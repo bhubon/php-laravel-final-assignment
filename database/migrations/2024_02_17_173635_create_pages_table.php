@@ -13,8 +13,11 @@ return new class extends Migration {
         Schema::create('pages', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('body');
-            $table->enum('status', ['active', 'deactive'])->default('active');
+            $table->string('company_mission')->nullable();
+            $table->string('company_vission')->nullable();
+            $table->string('address')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
             $table->timestamps();
         });
     }
