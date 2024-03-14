@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminJobController;
 use App\Http\Controllers\Admin\BlogCategoryController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\JobCategoryController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Candidate\CandidateEducationController;
@@ -94,6 +95,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(fu
     Route::resource('/admin-blogs', AdminBlogController::class);
     //Pages
     Route::resource('/pages', PageController::class);
+    //Pages
+    Route::resource('/employee', EmployeeController::class);
 });
 
 

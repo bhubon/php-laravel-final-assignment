@@ -50,9 +50,9 @@
                 <div class="menu-title">Employees</div>
             </a>
             <ul>
-                <li> <a href="app-emailbox.html"><i class="bx bx-right-arrow-alt"></i>Add Employee</a>
+                <li> <a href="{{ route('employee.create') }}"><i class="bx bx-right-arrow-alt"></i>Add Employee</a>
                 </li>
-                <li> <a href="app-chat-box.html"><i class="bx bx-right-arrow-alt"></i>All Employees</a>
+                <li> <a href="{{ route('employee.index') }}"><i class="bx bx-right-arrow-alt"></i>All Employees</a>
                 </li>
             </ul>
         </li>
@@ -77,7 +77,8 @@
                 <div class="menu-title">Blog Categories</div>
             </a>
             <ul>
-                <li> <a href="{{ route('blog-category.create') }}"><i class="bx bx-right-arrow-alt"></i>Add Category</a>
+                <li> <a href="{{ route('blog-category.create') }}"><i class="bx bx-right-arrow-alt"></i>Add
+                        Category</a>
                 </li>
                 <li> <a href="{{ route('blog-category.index') }}"><i class="bx bx-right-arrow-alt"></i>All
                         Categories</a>
