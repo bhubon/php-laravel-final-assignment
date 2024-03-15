@@ -65,11 +65,12 @@
                             <label for="job_type" class="form-label">Job Type*</label>
                             <select name="job_type" id="job_type" class="form-control">
                                 <option>Select Job Type</option>
-                                <option @if (old('job_tyle', $job->job_type) == 'remote') selected @endif value="remote">Remote</option>
-                                <option @if (old('job_tyle', $job->job_type) == 'office ') selected @endif value="office">Office</option>
-                                <option @if (old('job_tyle', $job->job_type) == 'hybrid') selected @endif value="hybrid">Hybrid</option>
+                                <option @if (old('job_type', $job->job_type) == 'remote') selected @endif value="remote">Remote</option>
+                                <option @if (old('job_type', $job->job_type) == 'office') selected @endif value="office">Office</option>
+                                <option @if (old('job_type', $job->job_type) == 'hybrid') selected @endif value="hybrid">Hybrid</option>
                             </select>
                         </div>
+
 
 
                         <div class="col-md-12">
