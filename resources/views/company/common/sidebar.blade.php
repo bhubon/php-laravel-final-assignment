@@ -40,28 +40,34 @@
                 </a>
             </li>
         @endcan
-        <li>
-            <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon"><i class="bx bx-category"></i>
-                </div>
-                <div class="menu-title">Employee</div>
-            </a>
-            <ul>
-                <li> <a href="{{ route('employee-manager.create') }}"><i class="bx bx-right-arrow-alt"></i>Add
-                        Employee</a>
-                </li>
-                <li> <a href="{{ route('employee-manager.index') }}"><i class="bx bx-right-arrow-alt"></i>All
-                        Employee</a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a href="{{ route('company.profile') }}">
-                <div class="parent-icon"><i class="bx bx-category"></i>
-                </div>
-                <div class="menu-title">Company Profile</div>
-            </a>
-        </li>
+        @can('view employee')
+            <li>
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon"><i class="bx bx-category"></i>
+                    </div>
+                    <div class="menu-title">Employee</div>
+                </a>
+                <ul>
+                    @can('create employee')
+                        <li> <a href="{{ route('employee-manager.create') }}"><i class="bx bx-right-arrow-alt"></i>Add
+                                Employee</a>
+                        </li>
+                    @endcan
+                    <li> <a href="{{ route('employee-manager.index') }}"><i class="bx bx-right-arrow-alt"></i>All
+                            Employee</a>
+                    </li>
+                </ul>
+            </li>
+        @endcan
+        @can('view company profile')
+            <li>
+                <a href="{{ route('company.profile') }}">
+                    <div class="parent-icon"><i class="bx bx-category"></i>
+                    </div>
+                    <div class="menu-title">Company Profile</div>
+                </a>
+            </li>
+        @endcan
         <li>
             <a href="{{ route('company.account') }}">
                 <div class="parent-icon"><i class="bx bx-category"></i>

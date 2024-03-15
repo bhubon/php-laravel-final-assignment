@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\Hash;
 class ProfileController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('can:view company profile')->only(['profile']);
+        $this->middleware('can:edit company profile')->only(['profileUpdate']);
+    }
+
     public function profile(Request $request)
     {
         $user_id = $request->user()->id;
@@ -34,7 +40,7 @@ class ProfileController extends Controller
             $user_id = $request->user()->id;
             $user = User::findOrFail($user_id);
 
-            $company = Company::where('user_id', $user_id)->first();
+            $company = Company::where('id', auth()->user()->company->id)->first();
 
             $company->company_name = $request->input('company_name');
             $company->company_address = $request->input('company_address');
@@ -59,7 +65,7 @@ class ProfileController extends Controller
 
                 $company->logo = $img_url;
 
-                if (file_exists($old_image) && !empty($company->logo)) {
+                if (file_exists($old_image) && !empty ($company->logo)) {
                     unlink($old_image);
                 }
             }
@@ -76,7 +82,7 @@ class ProfileController extends Controller
 
                 $company->cover_photo = $img_url;
 
-                if (file_exists($old_image) && !empty($company->logo)) {
+                if (file_exists($old_image) && !empty ($company->logo)) {
                     unlink($old_image);
                 }
             }
@@ -115,7 +121,7 @@ class ProfileController extends Controller
         try {
             $user = auth()->user();
 
-            if (!empty($request->current_password)) {
+            if (!empty ($request->current_password)) {
                 if (!Hash::check($request->current_password, $user->password)) {
                     return redirect()->back()->withErrors(['current_password' => 'The current password is incorrect'])->withInput();
                 } else {
@@ -134,7 +140,7 @@ class ProfileController extends Controller
 
                 $old_image = public_path($user->avatar);
 
-                if (!empty($candidate->avatar)) {
+                if (!empty ($candidate->avatar)) {
                     if (file_exists($old_image)) {
                         unlink($old_image);
                     }

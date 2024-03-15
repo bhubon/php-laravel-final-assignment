@@ -87,11 +87,14 @@
                                         placeholder="Enter company linkedin link"
                                         value="{{ $user->company->linkedin_link }}">
                                 </div>
+                                @can('edit company profile')
                                 <div class="mt-3">
                                     <div class="d-flex items-center">
                                         <button type="submit" class="btn btn-primary">Update Company Profile</button>
                                     </div>
                                 </div>
+                                @endcan
+                                
                             </div>
 
                         </div>

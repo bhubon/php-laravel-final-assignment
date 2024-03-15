@@ -9,6 +9,13 @@ use App\Http\Controllers\Controller;
 
 class CompanyEmployeeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:view employee')->only(['index']);
+        $this->middleware('can:create employee')->only(['create', 'store']);
+        $this->middleware('can:edit employee')->only(['edit', 'update']);
+        $this->middleware('can:delete employee')->only(['destroy']);
+    }
     /**
      * Display a listing of the resource.
      */
@@ -56,6 +63,8 @@ class CompanyEmployeeController extends Controller
 
                     'view job application',
                     'edit job application',
+                    'view company profile',
+                    'edit company profile',
                 ],
 
                 'editor' => [
@@ -122,6 +131,8 @@ class CompanyEmployeeController extends Controller
 
             'view job application',
             'edit job application',
+            'view company profile',
+            'edit company profile',
         ];
         return view('company.employee.edit', ['employee' => $employee, 'permissions' => $permissions]);
     }
@@ -146,6 +157,9 @@ class CompanyEmployeeController extends Controller
         try {
 
             $user = User::findOrFail($id);
+
+            $old_type = $user->employee_type;
+
             $user->first_name = $request->input('first_name');
             $user->last_name = $request->input('last_name');
             $user->email = $request->input('email');
@@ -155,13 +169,41 @@ class CompanyEmployeeController extends Controller
             $user->is_employee = '1';
             $user->employee_type = $request->input('employee_type');
 
-            if (!empty($request->password)) {
+            if (!empty ($request->password)) {
                 $user->password = bcrypt($request->input('password'));
             }
 
+            $roles = [
+                'manager' => [
+                    'create jobs',
+                    'view jobs',
+                    'edit jobs',
+                    'delete jobs',
 
+                    'view employee',
+                    'edit employee',
+                    'create employee',
+                    'delete employee',
 
-            $user->syncPermissions($request->permissions);
+                    'view job application',
+                    'edit job application',
+                    'view company profile',
+                    'edit company profile',
+                ],
+
+                'editor' => [
+                    'view jobs',
+                    'edit jobs',
+
+                    'view job application',
+                    'edit job application',
+                ],
+            ];
+            if ($old_type != $request->employee_type || ($user->getAllPermissions()->isEmpty() && ($old_type != $request->employee_type))) {
+                $user->syncPermissions($roles[$request->employee_type]);
+            } else {
+                $user->syncPermissions($request->permissions);
+            }
 
 
             $user->save();

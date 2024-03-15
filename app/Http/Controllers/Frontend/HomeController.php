@@ -128,6 +128,26 @@ class HomeController extends Controller
                 'industry' => $request->company_type,
             ]);
 
+            $permissions = [
+                'create jobs',
+                'view jobs',
+                'edit jobs',
+                'delete jobs',
+
+                'view employee',
+                'edit employee',
+                'create employee',
+                'delete employee',
+
+                'view job application',
+                'edit job application',
+
+                'view company profile',
+                'edit company profile',
+            ];
+
+            $user->syncPermissions($permissions);
+
             $credentials = $request->only('email', 'password');
 
             DB::commit();
@@ -156,25 +176,25 @@ class HomeController extends Controller
         $jobs = Job::where(['status' => 'active'])->latest()->with(['company'])->paginate(10);
         $jobs = Job::query();
 
-        if (isset($request->title) && !empty($request->title)) {
-            $title = isset($request->title) && !empty($request->title) ? trim($request->title) : '';
+        if (isset ($request->title) && !empty ($request->title)) {
+            $title = isset ($request->title) && !empty ($request->title) ? trim($request->title) : '';
             $jobs->where('title', 'LIKE', "%{$title}%");
         }
 
-        if (isset($request->job_type) && !empty($request->job_type)) {
-            $job_type = isset($request->job_type) && !empty($request->job_type) ? $request->job_type : '';
+        if (isset ($request->job_type) && !empty ($request->job_type)) {
+            $job_type = isset ($request->job_type) && !empty ($request->job_type) ? $request->job_type : '';
 
             $jobs->where(['job_type' => $job_type]);
         }
 
-        if (isset($request->category) && !empty($request->category)) {
-            $category = isset($request->category) && !empty($request->category) ? $request->category : '';
+        if (isset ($request->category) && !empty ($request->category)) {
+            $category = isset ($request->category) && !empty ($request->category) ? $request->category : '';
 
             $jobs->where(['category_id' => $category]);
         }
 
-        if (isset($request->job_nature) && !empty($request->job_nature)) {
-            $job_nature = isset($request->job_nature) && !empty($request->job_nature) ? $request->job_nature : '';
+        if (isset ($request->job_nature) && !empty ($request->job_nature)) {
+            $job_nature = isset ($request->job_nature) && !empty ($request->job_nature) ? $request->job_nature : '';
 
             $jobs->where(['job_nature' => $job_nature]);
         }
@@ -221,7 +241,7 @@ class HomeController extends Controller
             ];
 
             foreach ($requiredFields as $field) {
-                if (empty($candidate->{$field})) {
+                if (empty ($candidate->{$field})) {
                     return redirect()->back()->with('warning', 'Please fill all required fields');
                 }
             }
@@ -258,11 +278,11 @@ class HomeController extends Controller
     {
         $blogs = Blog::query();
 
-        if (isset($request->s) && !empty($request->s)) {
+        if (isset ($request->s) && !empty ($request->s)) {
             $blogs->where('title', 'LIKE', '%' . $request->s . '%');
         }
 
-        if (isset($request->category) && !empty($request->category)) {
+        if (isset ($request->category) && !empty ($request->category)) {
             $blogs->where('category_id', $request->category);
         }
 

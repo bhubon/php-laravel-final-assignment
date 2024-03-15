@@ -51,6 +51,9 @@ class PermissionSeeder extends Seeder
 
             'view users',
             'edit users',
+
+            'view company profile',
+            'edit company profile',
         ];
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission]);
@@ -59,6 +62,29 @@ class PermissionSeeder extends Seeder
         $admin = \App\Models\User::findOrFail(1);
         foreach ($permissions as $permission) {
             $admin->givePermissionTo($permission);
+        }
+
+        $permissions = [
+            'create jobs',
+            'view jobs',
+            'edit jobs',
+            'delete jobs',
+
+            'view employee',
+            'edit employee',
+            'create employee',
+            'delete employee',
+
+            'view job application',
+            'edit job application',
+
+            'view company profile',
+            'edit company profile',
+        ];
+
+        $company = \App\Models\User::findOrFail(2);
+        foreach ($permissions as $permission) {
+            $company->givePermissionTo($permissions);
         }
 
 
