@@ -5,7 +5,11 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mt-3 text-center">Login Now</h4>
-                    @include('components.validatation')
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
                     <form action="{{ route('login') }}" method="POST">
                         @csrf
                         @method('POST')
@@ -13,10 +17,12 @@
                             <input name="email" class="form-control" placeholder="Email" required type="email"
                                 value="{{ old('email') }}">
                         </div>
-                        <div class="form-group input-group">
+                        <div class="form-group input-group mb-0">
                             <input name="password" class="form-control" placeholder="Password" type="password" required
                                 value="{{ old('password') }}">
                         </div>
+                        <a href="{{ route('password.request') }}" class="text-dark mt-0 mb-4 d-block text-right">Forgon
+                            Password</a>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-block">Login</button>
                         </div>

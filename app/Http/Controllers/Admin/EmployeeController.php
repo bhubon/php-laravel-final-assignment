@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Permission;
@@ -65,6 +66,7 @@ class EmployeeController extends Controller
             $user->phone = $request->input('phone');
             $user->role = 'admin';
             $user->password = bcrypt($request->input('password'));
+            $user->email_verified_at = Carbon::now();
             $user->added_by = auth()->user()->id;
             $user->is_employee = '1';
             $user->employee_type = $request->input('employee_type');
@@ -164,7 +166,7 @@ class EmployeeController extends Controller
             $user->is_employee = '1';
             $user->employee_type = $request->input('employee_type');
 
-            if (!empty($request->password)) {
+            if (!empty ($request->password)) {
                 $user->password = bcrypt($request->input('password'));
             }
 

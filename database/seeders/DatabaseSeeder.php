@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Carbon;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,6 +23,7 @@ class DatabaseSeeder extends Seeder
                 'password' => bcrypt('111'),
                 'role' => 'admin',
                 'status' => 'active',
+                'email_verified_at ' => Carbon::now(),
             ],
         );
 
@@ -33,6 +35,7 @@ class DatabaseSeeder extends Seeder
                 'password' => bcrypt('111'),
                 'role' => 'company',
                 'status' => 'active',
+                'email_verified_at ' => Carbon::now(),
             ],
         );
 
@@ -44,6 +47,7 @@ class DatabaseSeeder extends Seeder
                 'password' => bcrypt('111'),
                 'role' => 'candidate',
                 'status' => 'active',
+                'email_verified_at ' => Carbon::now(),
             ],
         );
 

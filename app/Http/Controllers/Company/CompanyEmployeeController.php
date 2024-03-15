@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Company;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 
@@ -84,6 +85,7 @@ class CompanyEmployeeController extends Controller
             $user->phone = $request->input('phone');
             $user->role = 'company';
             $user->password = bcrypt($request->input('password'));
+            $user->email_verified_at = Carbon::now();
             $user->added_by = auth()->user()->id;
             $user->is_employee = '1';
             $user->employee_type = $request->input('employee_type');
