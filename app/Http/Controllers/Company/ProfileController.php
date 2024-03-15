@@ -64,10 +64,6 @@ class ProfileController extends Controller
                 $old_image = public_path($company->logo);
 
                 $company->logo = $img_url;
-
-                if (file_exists($old_image) && !empty ($company->logo)) {
-                    unlink($old_image);
-                }
             }
 
             if ($request->hasFile('cover_photo')) {
@@ -81,10 +77,6 @@ class ProfileController extends Controller
                 $old_image = public_path($company->cover_photo);
 
                 $company->cover_photo = $img_url;
-
-                if (file_exists($old_image) && !empty ($company->logo)) {
-                    unlink($old_image);
-                }
             }
 
             $company->save();
