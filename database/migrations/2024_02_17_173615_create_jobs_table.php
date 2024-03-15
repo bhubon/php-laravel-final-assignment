@@ -13,9 +13,9 @@ return new class extends Migration {
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('description');
-            $table->string('requirements');
-            $table->string('skills', 500)->nullable();
+            $table->longText('description');
+            $table->longText('requirements');
+            $table->longText('skills')->nullable();
             $table->string('location');
             $table->string('salary');
             $table->enum('job_type', ['remote', 'office', 'hybrid']);
