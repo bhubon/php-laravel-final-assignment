@@ -156,7 +156,75 @@ class EmployeeController extends Controller
 
         try {
 
+
+            $permissions = [
+                'manager' => [
+                    'view companies',
+                    'edit companies',
+
+                    'view jobs',
+                    'edit jobs',
+
+                    'view job categories',
+                    'create job categories',
+                    'edit job categories',
+                    'delete job categories',
+
+                    'view employee',
+                    'edit employee',
+                    'create employee',
+                    'delete employee',
+
+                    'view blogs',
+                    'create blogs',
+                    'edit blogs',
+                    'delete blogs',
+
+                    'view blog categories',
+                    'create blog categories',
+                    'edit blog categories',
+                    'delete blog categories',
+
+                    'view pages',
+                    'edit pages',
+
+                    'view users',
+                    'edit users',
+                ],
+                'editor' => [
+                    'view companies',
+
+                    'view jobs',
+                    'edit jobs',
+
+                    'view job categories',
+                    'create job categories',
+                    'edit job categories',
+                    'delete job categories',
+
+                    'view blogs',
+                    'create blogs',
+                    'edit blogs',
+                    'delete blogs',
+
+                    'view blog categories',
+                    'create blog categories',
+                    'edit blog categories',
+                    'delete blog categories',
+
+                    'view pages',
+                    'edit pages',
+
+                    'view users',
+                    'edit users',
+                ],
+            ];
+
+
             $user = User::findOrFail($id);
+
+            $old_type = $user->employee_type;
+
             $user->first_name = $request->input('first_name');
             $user->last_name = $request->input('last_name');
             $user->email = $request->input('email');
@@ -172,7 +240,11 @@ class EmployeeController extends Controller
 
 
 
-            $user->syncPermissions($request->permissions);
+            if ($old_type != $request->employee_type || ($user->getAllPermissions()->isEmpty() && ($old_type != $request->employee_type))) {
+                $user->syncPermissions($permissions[$request->employee_type]);
+            } else {
+                $user->syncPermissions($request->permissions);
+            }
 
 
             $user->save();
