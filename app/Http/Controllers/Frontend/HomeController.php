@@ -311,7 +311,12 @@ class HomeController extends Controller
     public function about_us()
     {
         $data = Page::findOrFail(1);
-        return view('frontend.pages.About', ['data' => $data]);
+        $top_companies = Company::withCount('jobs')
+            ->whereHas('jobs')
+            ->orderByDesc('jobs_count')
+            ->take(5)
+            ->get();
+        return view('frontend.pages.About', ['data' => $data, 'top_companies' => $top_companies]);
     }
     public function contact_us()
     {

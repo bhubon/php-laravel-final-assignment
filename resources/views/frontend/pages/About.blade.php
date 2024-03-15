@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <div class="support-company-area fix section-padding2">
+    <div class="support-company-area fix" style="padding: 80px 0 60px;">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-xl-6 col-lg-6">
@@ -49,4 +49,23 @@
         </div>
     </div>
 
+    <div class="online-cv cv-bg section-overly pt-90 pb-120"
+        data-background="{{ asset('frontend/') }}/assets/img/gallery/cv_bg.jpg">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-12 mb-4">
+                    <h2 class="text-center text-light">Top Companies</h2>
+                </div>
+                @foreach ($top_companies as $company)
+                    <div class="col-md-2 text-center border border-1 border-light bg-light pt-4 rounded mx-3">
+                        @if (!empty($company->logo))
+                            <img src="{{ !empty($company->logo) ? $company->logo : '' }}" alt="Company Logo" width="120px">
+                        @endif
+                        <h6 class="text-center text-dark">{{ $company->company_name }}</h6>
+                    </div>
+                @endforeach
+
+            </div>
+        </div>
+    </div>
 @endsection

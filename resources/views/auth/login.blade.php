@@ -12,6 +12,7 @@
                     @endif
                     <form action="{{ route('login') }}" method="POST">
                         @csrf
+                        @include('components.validatation')
                         @method('POST')
                         <div class="form-group input-group">
                             <input name="email" class="form-control" placeholder="Email" required type="email"
