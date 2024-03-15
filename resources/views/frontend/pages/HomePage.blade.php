@@ -95,7 +95,7 @@
                         @if (!empty($company->logo))
                             <img src="{{ !empty($company->logo) ? $company->logo : '' }}" alt="Company Logo" width="120px">
                         @endif
-                        <h6 class="text-center text-dark">{{ $company->company_name }}</h6>
+                        <h6 class="text-center text-dark mt-2">{{ $company->company_name }}</h6>
                     </div>
                 @endforeach
 
