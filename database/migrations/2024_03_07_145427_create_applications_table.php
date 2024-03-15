@@ -15,6 +15,8 @@ return new class extends Migration {
             $table->foreignId('job_id')->constrained('jobs')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('company_id')->constrained('companies')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('current_salary');
+            $table->string('expected_salary');
             $table->string('resume')->nullable();
             $table->enum('status', ['pending','short-listed', 'accepted', 'rejected'])->default('pending');
             $table->timestamps();

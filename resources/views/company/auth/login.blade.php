@@ -29,7 +29,7 @@
                 <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-2">
                     <div class="col mx-auto">
                         <div class="my-4 text-center">
-                            <img src="assets/images/logo-img.png" width="180" alt="" />
+                            <img src="{{ asset('uploads/logo.png') }}" width="180" alt="" />
                         </div>
                         <div class="card">
                             <div class="card-body">
@@ -70,6 +70,9 @@
                                                     <button type="submit" class="btn btn-primary"><i
                                                             class='bx bx-user'></i>Sign In</button>
                                                 </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <a href="{{ route('password.request') }}">Forgot Passoword</a>
                                             </div>
                                         </form>
                                     </div>

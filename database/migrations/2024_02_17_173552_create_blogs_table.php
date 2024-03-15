@@ -17,6 +17,9 @@ return new class extends Migration {
             $table->longText('description');
             $table->text('short_description')->nullable();
             $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->text('thumbnail')->nullable();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate()->after('status');
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });
     }
@@ -26,6 +29,10 @@ return new class extends Migration {
      */
     public function down(): void
     {
+        Schema::table('blogs', function (Blueprint $table) {
+            $table->dropForeign(['category_id']);
+        });
+
         Schema::dropIfExists('blogs');
     }
 };
