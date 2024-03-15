@@ -10,14 +10,6 @@ This repository contains the final assignment project for the Laravel course. It
 
 Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
 
-
-
-### Live Link
-
-1. Check Live Link:
-
-   ```bash
-   https://app.thedevnil.com/
    
 
 ### Prerequisites
