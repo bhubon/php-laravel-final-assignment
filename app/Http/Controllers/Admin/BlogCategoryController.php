@@ -8,6 +8,14 @@ use App\Http\Controllers\Controller;
 
 class BlogCategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:view blog categories')->only(['index']);
+        $this->middleware('can:create blog categories')->only(['create', 'store']);
+        $this->middleware('can:edit blog categories')->only(['edit', 'update']);
+        $this->middleware('can:delete blog categories')->only(['destroy']);
+    }
+
     /**
      * Display a listing of the resource.
      */

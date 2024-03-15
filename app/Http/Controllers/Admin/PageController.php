@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Page;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Spatie\Permission\Models\Permission;
 
 class PageController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:view pages')->only(['index']);
+        $this->middleware('can:edit pages')->only(['edit', 'update']);
+    }
+
     /**
      * Display a listing of the resource.
      */

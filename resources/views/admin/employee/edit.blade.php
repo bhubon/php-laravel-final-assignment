@@ -95,17 +95,16 @@
                                         @php
                                             $user_permissions = $employee->getAllPermissions();
                                         @endphp
-                                        @foreach ($permissions as $permission)
-                                            <li><input name="permissions[]" id="permission-{{ $permission->id }}"
-                                                    {{ in_array($permission->name, $user_permissions->pluck('name')->toArray()) ? 'checked' : '' }}
-                                                    type="checkbox" value="{{ $permission->name }}">
-                                                <label
-                                                    for="permission-{{ $permission->id }}">{{ $permission->name }}</label>
+                                        @foreach ($permissions as $key => $permission)
+                                            <li><input name="permissions[]" id="permission-{{ $key }}"
+                                                    {{ in_array($permission, $user_permissions->pluck('name')->toArray()) ? 'checked' : '' }}
+                                                    type="checkbox" value="{{ $permission }}">
+                                                <label for="permission-{{ $key }}">{{ $permission }}</label>
                                             </li>
                                         @endforeach
                                     @else
-                                            <h5>Run "php artisan db:seed --class=PermissionSeeder" to seed roles and permissions
-                                            </h5>
+                                        <h5>Run "php artisan db:seed --class=PermissionSeeder" to seed permissions
+                                        </h5>
                                     @endif
                                 </ul>
                             </div>

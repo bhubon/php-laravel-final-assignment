@@ -10,6 +10,12 @@ use App\Http\Controllers\Controller;
 
 class CompanyController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('can:view companies')->only(['index']);
+        $this->middleware('can:edit companies')->except(['index', 'edit', 'update']);
+    }
     /**
      * Display a listing of the resource.
      */
@@ -21,7 +27,7 @@ class CompanyController extends Controller
                 $query->where('status', $request->status);
             });
         }
-        $companies =  $companies->with('user')->latest()->paginate();
+        $companies = $companies->with('user')->latest()->paginate();
         return view('admin.company.index', ['companies' => $companies]);
     }
 

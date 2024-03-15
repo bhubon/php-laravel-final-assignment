@@ -11,6 +11,14 @@ use App\Http\Controllers\Controller;
 
 class AdminJobController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('can:view jobs')->only(['index']);
+        $this->middleware('can:edit jobs')->only(['edit', 'update']);
+    }
+
+
     /**
      * Display a listing of the resource.
      */
@@ -88,13 +96,5 @@ class AdminJobController extends Controller
             DB::rollBack();
             return redirect()->back()->with('failed', 'Something went wrong');
         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

@@ -8,6 +8,14 @@ use Illuminate\Http\Request;
 
 class JobCategoryController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('can:view job categories')->only(['index']);
+        $this->middleware('can:edit job categories')->only(['edit', 'update']);
+        $this->middleware('can:delete job categories')->only(['destroy']);
+    }
+
     /**
      * Display a listing of the resource.
      */

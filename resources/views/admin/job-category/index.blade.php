@@ -40,20 +40,27 @@
                                             <td>{{ $category->id }}</td>
                                             <td>{{ $category->name }}</td>
                                             <td>
-                                                <img src="{{ !empty($category->icon) ? asset($category->icon) : asset('uploads/placeholder.jpg') }}" alt="Icon" style="width:60px;">
+                                                <img src="{{ !empty($category->icon) ? asset($category->icon) : asset('uploads/placeholder.jpg') }}"
+                                                    alt="Icon" style="width:60px;">
                                             </td>
                                             <td>{{ date('d M, Y', strtotime($category->created_at)) }}</td>
                                             <td>
                                                 <div class="d-flex">
-                                                    <a href="{{ route('job-category.edit', $category->id) }}"
-                                                        class="btn btn-sm btn-warning mx-2">Edit</a>
-                                                    <form action="{{ route('job-category.destroy', $category->id) }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit"
-                                                            onclick="return confirm('Are you sure to delete?')"
-                                                            class="btn btn-sm btn-danger">Delete</button>
-                                                    </form>
+                                                    @can('edit job categories')
+                                                        <a href="{{ route('job-category.edit', $category->id) }}"
+                                                            class="btn btn-sm btn-warning mx-2">Edit</a>
+                                                    @endcan
+
+                                                    @can('delete job categories')
+                                                        <form action="{{ route('job-category.destroy', $category->id) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit"
+                                                                onclick="return confirm('Are you sure to delete?')"
+                                                                class="btn btn-sm btn-danger">Delete</button>
+                                                        </form>
+                                                    @endcan
                                                 </div>
                                             </td>
                                         </tr>

@@ -47,9 +47,9 @@
                                     <td>{{ ucwords($employee->employee_type) }}</td>
                                     <td>
                                         <div class="d-flex">
-                                            <a href="{{ route('employee.edit', $employee->id) }}"
-                                                class="btn btn-sm btn-warning mx-2">Edit Employee / Permission</a>
                                             @if (auth()->user()->id != $employee->id)
+                                                <a href="{{ route('employee.edit', $employee->id) }}"
+                                                    class="btn btn-sm btn-warning mx-2">Edit Employee / Permission</a>
                                                 <form action="{{ route('employee.destroy', $employee->id) }}"
                                                     method="POST">
                                                     @csrf

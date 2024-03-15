@@ -57,8 +57,11 @@
                                             <td>{{ Str::ucfirst($company->user->status) }}</td>
                                             <td>{{ date('d M, Y', strtotime($company->created_at)) }}</td>
                                             <td>
-                                                <a href="{{ route('companies.edit', $company->id) }}"
-                                                    class="btn btn-sm btn-success">View</a>
+                                                @can('edit companies')
+                                                    <a href="{{ route('companies.edit', $company->id) }}"
+                                                        class="btn btn-sm btn-success">View</a>
+                                                @endcan
+
                                             </td>
                                         </tr>
                                     @endforeach

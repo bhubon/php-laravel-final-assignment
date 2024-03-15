@@ -41,15 +41,21 @@
                                             <td>{{ date('d M, Y', strtotime($category->created_at)) }}</td>
                                             <td>
                                                 <div class="d-flex">
-                                                    <a href="{{ route('blog-category.edit', $category->id) }}"
-                                                        class="btn btn-sm btn-warning mx-2">Edit</a>
-                                                    <form action="{{ route('blog-category.destroy', $category->id) }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit"
-                                                            onclick="return confirm('Are you sure to delete?')"
-                                                            class="btn btn-sm btn-danger">Delete</button>
-                                                    </form>
+                                                    @can('edit blog categories')
+                                                        <a href="{{ route('blog-category.edit', $category->id) }}"
+                                                            class="btn btn-sm btn-warning mx-2">Edit</a>
+                                                    @endcan
+                                                    @can('delete blog categories')
+                                                        <form action="{{ route('blog-category.destroy', $category->id) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit"
+                                                                onclick="return confirm('Are you sure to delete?')"
+                                                                class="btn btn-sm btn-danger">Delete</button>
+                                                        </form>
+                                                    @endcan
+
                                                 </div>
                                             </td>
                                         </tr>

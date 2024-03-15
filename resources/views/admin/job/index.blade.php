@@ -75,8 +75,11 @@
 
                                             </td>
                                             <td>
-                                                <a href="{{ route('admin.jobs.edit', $job->id) }}"
-                                                    class="btn btn-sm btn-success">View</a>
+                                                @can('edit jobs')
+                                                    <a href="{{ route('admin.jobs.edit', $job->id) }}"
+                                                        class="btn btn-sm btn-success">View</a>
+                                                @endcan
+
                                             </td>
                                         </tr>
                                     @endforeach

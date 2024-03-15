@@ -54,14 +54,21 @@
                                     <td>{{ date('d m,Y', strtotime($blog->created_at)) }}</td>
                                     <td>
                                         <div class="d-flex">
-                                            <a href="{{ route('admin-blogs.edit', $blog->id) }}"
-                                                class="btn btn-sm btn-warning mx-2">Edit</a>
-                                            <form action="{{ route('admin-blogs.destroy', $blog->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" onclick="return confirm('Are you sure to delete?')"
-                                                    class="btn btn-sm btn-danger">Delete</button>
-                                            </form>
+                                            @can('edit blogs')
+                                                <a href="{{ route('admin-blogs.edit', $blog->id) }}"
+                                                    class="btn btn-sm btn-warning mx-2">Edit</a>
+                                            @endcan
+
+                                            @can('delete blogs')
+                                                <form action="{{ route('admin-blogs.destroy', $blog->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" onclick="return confirm('Are you sure to delete?')"
+                                                        class="btn btn-sm btn-danger">Delete</button>
+                                                </form>
+                                            @endcan
+
+
                                         </div>
                                     </td>
                                 </tr>

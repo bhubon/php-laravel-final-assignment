@@ -38,8 +38,10 @@
                                             <td>{{ $page->id }}</td>
                                             <td>{{ $page->title }}</td>
                                             <td>
-                                                <a href="{{ route('pages.edit', $page->id) }}"
-                                                    class="btn btn-sm btn-warning">Edit</a>
+                                                @can('edit pages')
+                                                    <a href="{{ route('pages.edit', $page->id) }}"
+                                                        class="btn btn-sm btn-warning">Edit</a>
+                                                @endcan
                                             </td>
                                         </tr>
                                     @endforeach

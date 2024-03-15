@@ -48,26 +48,19 @@ class PermissionSeeder extends Seeder
 
             'view job application',
             'edit job application',
-        ];
 
-        // Seed permissions
+            'view users',
+            'edit users',
+        ];
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission]);
         }
 
-        $roles = [
-            'manager' => ['view companies', 'view jobs', 'edit companies', 'create jobs', 'edit jobs', 'delete jobs', 'view job categories', 'create job categories', 'edit job categories', 'delete job categories', 'view employee', 'edit employee', 'create employee', 'delete employee', 'view blogs', 'create blogs', 'edit blogs', 'delete blogs', 'view blog categories', 'create blog categories', 'edit blog categories', 'delete blog categories', 'view pages', 'edit pages', 'view job application', 'edit job application'],
-
-            'editor' => ['view companies', 'view jobs', 'view blogs', 'create blogs', 'edit blogs', 'delete blogs', 'view blog categories', 'create blog categories', 'edit blog categories', 'delete blog categories', 'view pages', 'edit pages', 'view job application', 'edit job application'],
-        ];
-
-        // Seed roles and assign permissions
-        foreach ($roles as $roleName => $rolePermissions) {
-            $role = Role::create(['name' => $roleName]);
-            foreach ($rolePermissions as $permission) {
-                $role->givePermissionTo($permission);
-            }
+        $admin = \App\Models\User::findOrFail(1);
+        foreach ($permissions as $permission) {
+            $admin->givePermissionTo($permission);
         }
+
 
     }
 }

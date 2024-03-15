@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\Hash;
 
 class DashboardController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:view users')->only(['all_user']);
+        $this->middleware('can:edit users')->only(['user_details', 'account_update']);
+    }
+
+
     public function dashboard()
     {
         $jobs = Job::with('company')->latest()->limit(10)->get();

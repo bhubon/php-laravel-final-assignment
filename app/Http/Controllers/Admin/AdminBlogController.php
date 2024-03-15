@@ -11,6 +11,15 @@ use App\Http\Controllers\Controller;
 
 class AdminBlogController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('can:view blogs')->only(['index']);
+        $this->middleware('can:create blogs')->only(['create', 'store']);
+        $this->middleware('can:edit blogs')->only(['edit', 'update']);
+        $this->middleware('can:delete blogs')->only(['destroy']);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -136,6 +145,8 @@ class AdminBlogController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $blog = Blog::findOrFail($id);
+        $blog->delete();
+        return redirect()->back()->with('success', 'Blog Deleted.');
     }
 }

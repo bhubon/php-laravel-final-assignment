@@ -118,7 +118,7 @@ class HomeController extends Controller
                 'phone' => $request->phone,
                 'password' => $request->password,
                 'role' => 'company',
-                'status' => 'inactive',
+                'status' => 'active',
             ]);
 
             Company::create([

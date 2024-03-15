@@ -42,6 +42,14 @@ class EmployeeController extends Controller
         ]);
 
         try {
+
+            $roles = [
+                'manager' => ['view companies', 'view jobs', 'edit companies', 'edit jobs', 'view job categories', 'create job categories', 'edit job categories', 'delete job categories', 'view employee', 'edit employee', 'create employee', 'delete employee', 'view blogs', 'create blogs', 'edit blogs', 'delete blogs', 'view blog categories', 'create blog categories', 'edit blog categories', 'delete blog categories', 'view pages', 'edit pages',],
+
+                'editor' => ['view companies', 'view jobs', 'view blogs', 'create blogs', 'edit blogs', 'delete blogs', 'view blog categories', 'create blog categories', 'edit blog categories', 'delete blog categories', 'view pages', 'edit pages', 'view job application', 'edit job application'],
+            ];
+
+
             $user = new User();
             $user->first_name = $request->input('first_name');
             $user->last_name = $request->input('last_name');
@@ -52,9 +60,17 @@ class EmployeeController extends Controller
             $user->added_by = auth()->user()->id;
             $user->is_employee = '1';
             $user->employee_type = $request->input('employee_type');
+
+            if ($request->input('employee_type') == 'manager') {
+
+                $user->syncPermissions($roles['manager']);
+            } else {
+                $user->syncPermissions($roles['editor']);
+            }
+
+
             $user->save();
 
-            $user->assignRole($request->input('employee_type'));
 
             return redirect()->route('employee.index')->with('success', 'Employee added successfully.');
 
@@ -69,8 +85,45 @@ class EmployeeController extends Controller
      */
     public function edit(string $id)
     {
+
+        if (auth()->user()->id == $id) {
+            return redirect()->back()->with('warning', 'Dont have permission to access this page');
+        }
+
         $employee = User::findOrFail($id);
-        $permissions = Permission::latest()->get();
+        $permissions = [
+            'view companies',
+            'edit companies',
+
+            'view jobs',
+            'edit jobs',
+
+            'view job categories',
+            'create job categories',
+            'edit job categories',
+            'delete job categories',
+
+            'view employee',
+            'edit employee',
+            'create employee',
+            'delete employee',
+
+            'view blogs',
+            'create blogs',
+            'edit blogs',
+            'delete blogs',
+
+            'view blog categories',
+            'create blog categories',
+            'edit blog categories',
+            'delete blog categories',
+
+            'view pages',
+            'edit pages',
+
+            'view users',
+            'edit users',
+        ];
         return view('admin.employee.edit', ['employee' => $employee, 'permissions' => $permissions]);
     }
 
@@ -109,16 +162,7 @@ class EmployeeController extends Controller
 
 
 
-            if ($user->hasRole('editor') && $request->input('employee_type') === $user->employee_type) {
-                $permissions = $request->input('permissions', []);
-                $user->syncPermissions($permissions);
-
-                $allPermissions = Permission::all()->pluck('name')->toArray();
-                $permissionsToRevoke = array_diff($allPermissions, $permissions);
-                $user->revokePermissionTo($permissionsToRevoke);
-            } else {
-                $user->syncRoles([$request->input('employee_type')]);
-            }
+            $user->syncPermissions($request->permissions);
 
 
             $user->save();

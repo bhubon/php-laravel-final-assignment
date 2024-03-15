@@ -40,15 +40,17 @@
                                     @foreach ($users as $user)
                                         <tr>
                                             <td>{{ $user->id }}</td>
-                                            <td>{{ $user->first_name }} {{$user->last_name}}</td>
+                                            <td>{{ $user->first_name }} {{ $user->last_name }}</td>
                                             <td>{{ $user->email }}</td>
                                             <td>{{ $user->phone }}</td>
                                             <td>{{ ucwords($user->role) }}</td>
                                             <td>{{ date('d M, Y', strtotime($user->created_at)) }}</td>
                                             <td>
                                                 <div class="d-flex">
-                                                    <a href="{{ route('admin.users.details', $user->id) }}"
-                                                        class="btn btn-sm btn-warning mx-2">Edit / View</a>
+                                                    @can('edit users')
+                                                        <a href="{{ route('admin.users.details', $user->id) }}"
+                                                            class="btn btn-sm btn-warning mx-2">Edit / View</a>
+                                                    @endcan
                                                 </div>
                                             </td>
                                         </tr>

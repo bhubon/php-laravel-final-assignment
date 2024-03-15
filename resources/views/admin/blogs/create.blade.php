@@ -39,7 +39,7 @@
                             <textarea type="text" name="description" placeholder="Enter Description" class="form-control" id="description">{{ old('description') }}</textarea>
                         </div>
                         <div class="col-md-12">
-                            <label for="short_description" class="form-label">Short Description</label>
+                            <label for="short_description" class="form-label">Short Description*</label>
                             <textarea type="text" name="short_description" placeholder="Enter Short Description" class="form-control" id="short_description">{{ old('short_description') }}</textarea>
                         </div>
                         <div class="col-md-12">
