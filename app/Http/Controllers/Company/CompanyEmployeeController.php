@@ -1,30 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Company;
 
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
-use Spatie\Permission\Models\Permission;
 
-class EmployeeController extends Controller
+class CompanyEmployeeController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('can:view employee')->only(['index']);
-        $this->middleware('can:create employee')->only(['create', 'store']);
-        $this->middleware('can:edit employee')->only(['edit', 'update']);
-        $this->middleware('can:delete employee')->only(['destroy']);
-    }
-
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $employees = User::where(['is_employee' => '1', 'role' => 'admin'])->latest()->paginate(10);
-        return view('admin.employee.index', ['employees' => $employees]);
+        $employees = User::where(['is_employee' => '1', 'added_by' => auth()->user()->id])->latest()->paginate(10);
+        return view('company.employee.index', ['employees' => $employees]);
     }
 
     /**
@@ -32,7 +23,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        return view('admin.employee.create');
+        return view('company.employee.create');
     }
 
     /**
@@ -52,9 +43,28 @@ class EmployeeController extends Controller
         try {
 
             $roles = [
-                'manager' => ['view companies', 'view jobs', 'edit companies', 'edit jobs', 'view job categories', 'create job categories', 'edit job categories', 'delete job categories', 'view employee', 'edit employee', 'create employee', 'delete employee', 'view blogs', 'create blogs', 'edit blogs', 'delete blogs', 'view blog categories', 'create blog categories', 'edit blog categories', 'delete blog categories', 'view pages', 'edit pages',],
+                'manager' => [
+                    'create jobs',
+                    'view jobs',
+                    'edit jobs',
+                    'delete jobs',
 
-                'editor' => ['view companies', 'view jobs', 'view blogs', 'create blogs', 'edit blogs', 'delete blogs', 'view blog categories', 'create blog categories', 'edit blog categories', 'delete blog categories', 'view pages', 'edit pages', 'view job application', 'edit job application'],
+                    'view employee',
+                    'edit employee',
+                    'create employee',
+                    'delete employee',
+
+                    'view job application',
+                    'edit job application',
+                ],
+
+                'editor' => [
+                    'view jobs',
+                    'edit jobs',
+
+                    'view job application',
+                    'edit job application',
+                ],
             ];
 
 
@@ -63,7 +73,7 @@ class EmployeeController extends Controller
             $user->last_name = $request->input('last_name');
             $user->email = $request->input('email');
             $user->phone = $request->input('phone');
-            $user->role = 'admin';
+            $user->role = 'company';
             $user->password = bcrypt($request->input('password'));
             $user->added_by = auth()->user()->id;
             $user->is_employee = '1';
@@ -80,7 +90,7 @@ class EmployeeController extends Controller
             $user->save();
 
 
-            return redirect()->route('employee.index')->with('success', 'Employee added successfully.');
+            return redirect()->route('employee-manager.index')->with('success', 'Employee added successfully.');
 
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to add Employee. Please try again.');
@@ -100,39 +110,20 @@ class EmployeeController extends Controller
 
         $employee = User::findOrFail($id);
         $permissions = [
-            'view companies',
-            'edit companies',
-
+            'create jobs',
             'view jobs',
             'edit jobs',
-
-            'view job categories',
-            'create job categories',
-            'edit job categories',
-            'delete job categories',
+            'delete jobs',
 
             'view employee',
             'edit employee',
             'create employee',
             'delete employee',
 
-            'view blogs',
-            'create blogs',
-            'edit blogs',
-            'delete blogs',
-
-            'view blog categories',
-            'create blog categories',
-            'edit blog categories',
-            'delete blog categories',
-
-            'view pages',
-            'edit pages',
-
-            'view users',
-            'edit users',
+            'view job application',
+            'edit job application',
         ];
-        return view('admin.employee.edit', ['employee' => $employee, 'permissions' => $permissions]);
+        return view('company.employee.edit', ['employee' => $employee, 'permissions' => $permissions]);
     }
 
     /**
@@ -159,7 +150,7 @@ class EmployeeController extends Controller
             $user->last_name = $request->input('last_name');
             $user->email = $request->input('email');
             $user->phone = $request->input('phone');
-            $user->role = 'admin';
+            $user->role = 'company';
             $user->added_by = auth()->user()->id;
             $user->is_employee = '1';
             $user->employee_type = $request->input('employee_type');

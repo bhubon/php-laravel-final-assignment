@@ -12,6 +12,13 @@ use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:view jobs')->only(['index']);
+        $this->middleware('can:edit jobs')->only(['edit', 'update']);
+        $this->middleware('can:delete jobs')->only(['destroy']);
+        $this->middleware('can:create jobs')->only(['create', 'store']);
+    }
     /**
      * Display a listing of the resource.
      */
@@ -21,16 +28,16 @@ class JobController extends Controller
 
         $jobs = Job::query();
 
-        if (!empty($request->status)) {
+        if (!empty ($request->status)) {
             $jobs->where('status', $request->status);
         }
 
 
 
-        if (!empty($request->month)) {
+        if (!empty ($request->month)) {
 
             $date = $request->month;
-            $date = explode('-',$date);
+            $date = explode('-', $date);
             $inputMonth = $date[1];
             $inputYear = $date[0];
 
@@ -38,7 +45,7 @@ class JobController extends Controller
                 ->whereMonth('created_at', $inputMonth);
         }
 
-        $jobs = $jobs->where('user_id', $user_id)->latest()->with(['applications'])->paginate(10);
+        $jobs = $jobs->where('company_id', Auth::user()->company->id)->latest()->with(['applications'])->paginate(10);
         return view('company.jobs.index', ['jobs' => $jobs]);
     }
 
@@ -109,8 +116,8 @@ class JobController extends Controller
      */
     public function edit(string $id)
     {
-        $user_id = Auth::user()->id;
-        $job = Job::where(['id' => $id, 'user_id' => $user_id])->first();
+        $company_id = auth()->user()->company->id;
+        $job = Job::where(['id' => $id, 'company_id' => $company_id])->first();
         $job_categories = JobCategory::latest()->get();
         return view('company.jobs.edit', ['job' => $job, 'job_categories' => $job_categories]);
     }
@@ -136,9 +143,8 @@ class JobController extends Controller
 
         try {
             DB::beginTransaction();
-
-            $user_id = Auth::user()->id;
-            $job = Job::where(['id' => $id, 'user_id' => $user_id])->first();
+            $company_id = auth()->user()->company->id;
+            $job = Job::where(['id' => $id, 'company_id'=>$company_id])->first();
 
             $job->update([
                 'title' => $request->title,
@@ -169,7 +175,7 @@ class JobController extends Controller
     public function destroy(string $id)
     {
         $user_id = Auth::user()->id;
-        $job = Job::where(['id' => $id, 'user_id' => $user_id])->first();
+        $job = Job::where(['id' => $id, 'company_id'=>Auth::user()->company->id])->first();
         $job->delete();
         return redirect()->route('jobs.index')->with('success', 'Job Deleted.');
     }

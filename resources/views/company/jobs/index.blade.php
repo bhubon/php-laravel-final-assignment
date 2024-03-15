@@ -24,7 +24,8 @@
                     <form action="" method="GET" class="d-flex">
                         <div>
                             <label for="month">Posted (Month)</label>
-                            <input type="month" name="month" id="month" class="form-control" placeholder="Select Month"
+                            <input type="month" name="month" id="month" class="form-control"
+                                placeholder="Select Month"
                                 value="{{ request()->input('month') ? \Carbon\Carbon::parse(request()->input('month'))->format('Y-m') : '' }}">
                         </div>
 
@@ -78,14 +79,19 @@
                                     </td>
                                     <td>
                                         <div class="d-flex">
-                                            <a href="{{ route('jobs.edit', $job->id) }}"
-                                                class="btn btn-sm btn-warning mx-2">Edit</a>
-                                            <form action="{{ route('jobs.destroy', $job->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" onclick="return confirm('Are you sure to delete?')"
-                                                    class="btn btn-sm btn-danger">Delete</button>
-                                            </form>
+                                            @can('edit jobs')
+                                                <a href="{{ route('jobs.edit', $job->id) }}"
+                                                    class="btn btn-sm btn-warning mx-2">Edit</a>
+                                            @endcan
+
+                                            @can('delete jobs')
+                                                <form action="{{ route('jobs.destroy', $job->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" onclick="return confirm('Are you sure to delete?')"
+                                                        class="btn btn-sm btn-danger">Delete</button>
+                                                </form>
+                                            @endcan
                                         </div>
                                     </td>
                                     <td>

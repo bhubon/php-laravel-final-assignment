@@ -35,13 +35,13 @@
             <div class="card radius-10 bg-gradient-ohhappiness">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
-                        <h5 class="mb-0 text-white">{{ $job_running }}</h5>
+                        <h5 class="mb-0 text-white">{{ $application_count }}</h5>
                         <div class="ms-auto">
                             <i class="bx bx-category text-white"></i>
                         </div>
                     </div>
                     <div class="d-flex align-items-center text-white">
-                        <p class="mb-0">Job Post Running</p>
+                        <p class="mb-0">Total Applied Candidates</p>
                     </div>
                 </div>
             </div>
@@ -81,14 +81,18 @@
                                     <td>{{ $job->status }}</td>
                                     <td>
                                         <div class="d-flex">
-                                            <a href="{{ route('jobs.edit', $job->id) }}"
-                                                class="btn btn-sm btn-warning mx-2">Edit</a>
-                                            <form action="{{ route('jobs.destroy', $job->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" onclick="return confirm('Are you sure to delete?')"
-                                                    class="btn btn-sm btn-danger">Delete</button>
-                                            </form>
+                                            @can('view jobs')
+                                                <a href="{{ route('jobs.edit', $job->id) }}"
+                                                    class="btn btn-sm btn-warning mx-2">Edit</a>
+                                            @endcan
+                                            @can('delete jobs')
+                                                <form action="{{ route('jobs.destroy', $job->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" onclick="return confirm('Are you sure to delete?')"
+                                                        class="btn btn-sm btn-danger">Delete</button>
+                                                </form>
+                                            @endcan
                                         </div>
                                     </td>
                                 </tr>

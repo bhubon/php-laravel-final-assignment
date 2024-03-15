@@ -58,53 +58,57 @@
             </div>
         </div>
     </div><!--end row-->
-    <div class="card radius-10">
-        <div class="card-body">
-            <div class="d-flex align-items-center">
-                <div>
-                    <h5 class="mb-0">Recent Jobs</h5>
+    @can('view jobs')
+        <div class="card radius-10">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <h5 class="mb-0">Recent Jobs</h5>
+                    </div>
                 </div>
-            </div>
-            <hr>
-            <div class="table-responsive">
-                <table class="table align-middle mb-0">
-                    <thead class="table-light">
-                        <tr>
-                            <th>ID</th>
-                            <th>Title</th>
-                            <th>Company</th>
-                            <th>Deadline</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (count($jobs) > 0)
-                            @foreach ($jobs as $job)
+                <hr>
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Company</th>
+                                <th>Deadline</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (count($jobs) > 0)
+                                @foreach ($jobs as $job)
+                                    <tr>
+                                        <td>{{ $job->id }}</td>
+                                        <td>{{ $job->title }}</td>
+                                        <td><a
+                                                href="{{ route('companies.edit', $job->company->id) }}">{{ $job->company->company_name }}</a>
+                                        </td>
+                                        <td>{{ date('d M, Y', strtotime($job->created_at)) }}</td>
+                                        <td>{{ Str::ucfirst($job->status) }}</td>
+                                        <td>
+                                            @can('edit jobs')
+                                                <a href="{{ route('admin.jobs.edit', $job->id) }}"
+                                                    class="btn btn-sm btn-success">View</a>
+                                            @endcan
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
                                 <tr>
-                                    <td>{{ $job->id }}</td>
-                                    <td>{{ $job->title }}</td>
-                                    <td><a
-                                            href="{{ route('companies.edit', $job->company->id) }}">{{ $job->company->company_name }}</a>
-                                    </td>
-                                    <td>{{ date('d M, Y', strtotime($job->created_at)) }}</td>
-                                    <td>{{ Str::ucfirst($job->status) }}</td>
-                                    <td>
-                                        <a href="{{ route('admin.jobs.edit', $job->id) }}"
-                                            class="btn btn-sm btn-success">View</a>
+                                    <td colspan="7">
+                                        <h6 class="text-center my-4">No Data Found</h6>
                                     </td>
                                 </tr>
-                            @endforeach
-                        @else
-                            <tr>
-                                <td colspan="7">
-                                    <h6 class="text-center my-4">No Data Found</h6>
-                                </td>
-                            </tr>
-                        @endif
-                    </tbody>
-                </table>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
+    @endcan
 @endsection

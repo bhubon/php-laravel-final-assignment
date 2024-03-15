@@ -17,6 +17,9 @@ class Role
     {
 
         if ($request->user()->role == $role) {
+            // echo $request->user()->role ;
+            // echo $role;
+            // die();
             return $next($request);
         }
         return redirect()->back()->with('warning', 'You dont have permission to access this page');

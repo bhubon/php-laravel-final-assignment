@@ -54,6 +54,12 @@ class User extends Authenticatable
 
     public function company()
     {
+
+        $user = auth()->user();
+
+        if ($user->role == 'company' && $user->is_employee == '1') {
+            return $this->hasOne(Company::class, 'user_id', 'added_by');
+        }
         return $this->hasOne(Company::class);
     }
 

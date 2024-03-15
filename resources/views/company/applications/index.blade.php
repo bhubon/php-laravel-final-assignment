@@ -74,8 +74,10 @@
                                     <td>{{ ucwords($application->status) }}</td>
                                     <td>
                                         <div class="d-flex">
+                                            @can('edit job application')
                                             <a href="{{ route('applications.edit', $application->id) }}"
                                                 class="btn btn-sm btn-warning mx-2">View Details</a>
+                                            @endcan
                                             
                                         </div>
                                     </td>

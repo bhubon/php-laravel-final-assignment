@@ -54,24 +54,36 @@
                 </ul>
             </li>
         @endcan
-        <li class="menu-label">Employee Management</li>
-        <li>
-            <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon"><i class="bx bx-category"></i>
-                </div>
-                <div class="menu-title">Employees</div>
-            </a>
-            <ul>
-                <li> <a href="{{ route('employee.create') }}"><i class="bx bx-right-arrow-alt"></i>Add Employee</a>
-                </li>
-                <li> <a href="{{ route('employee.index') }}"><i class="bx bx-right-arrow-alt"></i>All Employees</a>
-                </li>
-            </ul>
-        </li>
+        @can('view employee')
+            <li class="menu-label">Employee Management</li>
+            <li>
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon"><i class="bx bx-category"></i>
+                    </div>
+                    <div class="menu-title">Employees</div>
+                </a>
+                <ul>
+                    @can('create employee')
+                        <li> <a href="{{ route('employee.create') }}"><i class="bx bx-right-arrow-alt"></i>Add Employee</a>
+                        </li>
+                    @endcan
+                    <li> <a href="{{ route('employee.index') }}"><i class="bx bx-right-arrow-alt"></i>All Employees</a>
+                    </li>
+                </ul>
+            </li>
+        @endcan
+
+        @php
+            $canView = auth()->user()->can('view companies');
+            $canEdit = auth()->user()->can('edit companies');
+        @endphp
 
 
 
-        <li class="menu-label">Blog Management</li>
+        @if ($canView || $canEdit)
+            <li class="menu-label">Blog Management</li>
+        @endif
+
         @can('view blogs')
             <li>
                 <a href="javascript:;" class="has-arrow">

@@ -1,4 +1,4 @@
-@extends('admin.admin-layout')
+@extends('company.company-layout')
 @section('content')
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
         <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
@@ -48,20 +48,20 @@
                                     <td>
                                         <div class="d-flex">
                                             @if (auth()->user()->id != $employee->id)
-                                                @can('edit employee')
-                                                    <a href="{{ route('employee.edit', $employee->id) }}"
-                                                        class="btn btn-sm btn-warning mx-2">Edit Employee / Permission</a>
-                                                @endcan
-                                                @can('delete employee')
-                                                    <form action="{{ route('employee.destroy', $employee->id) }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit"
-                                                            onclick="return confirm('Are you sure to delete?')"
-                                                            class="btn btn-sm btn-danger">Delete</button>
-                                                    </form>
-                                                @endcan
+                                                {{-- @can('edit employee') --}}
+                                                <a href="{{ route('employee-manager.edit', $employee->id) }}"
+                                                    class="btn btn-sm btn-warning mx-2">Edit Employee / Permission</a>
+                                                {{-- @endcan
+                                                @can('delete employee') --}}
+                                                <form action="{{ route('employee-manager.destroy', $employee->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        onclick="return confirm('Are you sure to delete?')"
+                                                        class="btn btn-sm btn-danger">Delete</button>
+                                                </form>
+                                                {{-- @endcan --}}
                                             @endif
                                         </div>
                                     </td>

@@ -17,6 +17,7 @@ use App\Http\Controllers\Candidate\CandidateTrainingController;
 use App\Http\Controllers\Company\CompanyApplicationController;
 use App\Http\Controllers\Company\CompanyBlogController;
 use App\Http\Controllers\Company\CompanyDashboardController;
+use App\Http\Controllers\Company\CompanyEmployeeController;
 use App\Http\Controllers\Company\JobController;
 use App\Http\Controllers\Company\ProfileController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -118,8 +119,10 @@ Route::middleware(['auth', 'verified', 'role:company'])->prefix('company')->grou
 
     //Job
     Route::resource('jobs', JobController::class);
-    //Blog
+    //Applications
     Route::resource('applications', CompanyApplicationController::class);
+    //Employee
+    Route::resource('employee-manager', CompanyEmployeeController::class);
 });
 
 //Candidate

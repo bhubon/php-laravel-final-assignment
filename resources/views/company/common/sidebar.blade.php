@@ -14,32 +14,46 @@
                 <div class="menu-title">Dashboard</div>
             </a>
         </li>
+        @can('view jobs')
+            <li>
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon"><i class="bx bx-category"></i>
+                    </div>
+                    <div class="menu-title">Job</div>
+                </a>
+                <ul>
+                    @can('create jobs')
+                        <li> <a href="{{ route('jobs.create') }}"><i class="bx bx-right-arrow-alt"></i>Add Job</a>
+                        </li>
+                    @endcan
+                    <li> <a href="{{ route('jobs.index') }}"><i class="bx bx-right-arrow-alt"></i>All Jobs</a>
+                    </li>
+                </ul>
+            </li>
+        @endcan
+        @can('view employee')
+            <li>
+                <a href="{{ route('applications.index') }}">
+                    <div class="parent-icon"><i class="bx bx-category"></i>
+                    </div>
+                    <div class="menu-title">Job Applications</div>
+                </a>
+            </li>
+        @endcan
         <li>
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="bx bx-category"></i>
                 </div>
-                <div class="menu-title">Job</div>
-            </a>
-            <ul>
-                <li> <a href="{{ route('jobs.create') }}"><i class="bx bx-right-arrow-alt"></i>Add Job</a>
-                </li>
-                <li> <a href="{{ route('jobs.index') }}"><i class="bx bx-right-arrow-alt"></i>All Jobs</a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a href="{{ route('applications.index') }}">
-                <div class="parent-icon"><i class="bx bx-category"></i>
-                </div>
-                <div class="menu-title">Job Applications</div>
-            </a>
-        </li>
-        <li>
-            <a href="javascript:;">
-                <div class="parent-icon"><i class="bx bx-category"></i>
-                </div>
                 <div class="menu-title">Employee</div>
             </a>
+            <ul>
+                <li> <a href="{{ route('employee-manager.create') }}"><i class="bx bx-right-arrow-alt"></i>Add
+                        Employee</a>
+                </li>
+                <li> <a href="{{ route('employee-manager.index') }}"><i class="bx bx-right-arrow-alt"></i>All
+                        Employee</a>
+                </li>
+            </ul>
         </li>
         <li>
             <a href="{{ route('company.profile') }}">
