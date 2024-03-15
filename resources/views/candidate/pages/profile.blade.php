@@ -68,7 +68,7 @@
                                 if (!empty($candidate->avatar)) {
                                     $avatar = $candidate->avatar;
                                 } else {
-                                    $avatar = asset('candidate/assets/images/avatars/avatar-2.png');
+                                    $avatar = asset('admin/assets/images/pladeholder-avatar.jpg');
                                 }
 
                             @endphp

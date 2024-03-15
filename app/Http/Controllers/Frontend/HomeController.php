@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Models\Category;
+use Mail;
 use App\Models\Job;
 use App\Models\Blog;
 use App\Models\Page;
 use App\Models\User;
 use App\Models\Company;
 use App\Mail\verifyMail;
+use App\Models\Category;
+use App\Mail\ContactMail;
+use App\Models\Candidate;
 use App\Models\Application;
 use App\Models\JobCategory;
 use Illuminate\Support\Str;
@@ -16,8 +19,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Mail;
-use App\Mail\ContactMail;
 
 class HomeController extends Controller
 {
@@ -68,6 +69,11 @@ class HomeController extends Controller
                 'role' => 'candidate',
                 'status' => 'active',
             ]);
+
+            Candidate::create([
+                'user_id' => $user->id,
+                'name' => $user->first_name . " " . $user->last_name,
+            ]);
             DB::commit();
 
             if ($user) {
@@ -77,7 +83,6 @@ class HomeController extends Controller
 
                 return redirect()->route('user.dashboard')->with('success', 'Successfully Registered!');
             } else {
-
                 return redirect()->back()->with('warning', 'Something went wrong');
             }
 
@@ -85,6 +90,7 @@ class HomeController extends Controller
 
 
         } catch (\Exception $e) {
+            // return $e->getMessage();
             DB::commit();
             return redirect()->back()->with('warning', 'Something went wrong');
         }
